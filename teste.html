@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Guia de Simulação - PAI TJPE</title>
+    
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #0d9488;
+            --accent: #f59e0b;
+            --bg: #f1f5f9;
+            --text: #1e293b;
+            --card-bg: #ffffff;
+            --border: #cbd5e1;
+            --danger: #dc2626;
+            --success: #16a34a;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Logo do Topo (Responsiva) */
+        .header-main-logo {
+            width: 100%;
+            max-width: 320px;
+            height: auto;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        /* Container Principal do Wizard */
+        .wizard-container {
+            width: 100%;
+            max-width: 850px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 25px;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        /* Barra de Progresso Superior */
+        .progress-bar-container {
+            width: 100%;
+            background-color: #e2e8f0;
+            height: 8px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--secondary);
+            width: 20%; 
+            transition: width 0.4s ease;
+        }
+
+        /* Páginas internas */
+        .wizard-page {
+            display: none;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        .wizard-page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: var(--primary);
+            font-size: 22px;
+            margin-top: 0;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 12px;
+        }
+
+        p {
+            line-height: 1.6;
+            color: #475569;
+            font-size: 15px;
+        }
+
+        /* Inputs e Formulários */
+        .form-group {
+            margin-bottom: 20px;
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 5px solid var(--primary);
+        }
+
+        /* Grid Minimalista que vira 1 coluna no celular */
+        .form-grid-minimal {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-size: 13px;
+        }
+
+        input[type="number"], select, input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            font-size: 15px;
+            box-sizing: border-box;
+            font-weight: 600;
+            color: var(--primary);
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+        }
+
+        /* Menu de Adição Dinâmica (+) */
+        .rubricas-menu-box {
+            background: #f1f5f9;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .rubricas-menu-title {
+            font-weight: 700;
+            font-size: 13px;
+            color: var(--primary);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .rubricas-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .rubrica-item-btn {
+            background: #fff;
+            border: 1px solid var(--border);
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .rubrica-item-btn:hover {
+            border-color: var(--secondary);
+            background: #f0fdfa;
+            color: var(--secondary);
+        }
+
+        .rubrica-item-btn .plus-icon {
+            color: var(--success);
+            font-weight: 800;
+        }
+
+        /* Tabela Dinâmica do Contracheque Montado com Segurança Responsiva */
+        .contracheque-mount-area {
+            margin-top: 25px;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .table-responsive-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .cc-mount-header {
+            background: var(--primary);
+            color: #fff;
+            padding: 12px;
+            font-weight: 700;
+            font-size: 14px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .cc-mount-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 500px; /* Garante que a tabela mantenha a estrutura na rolagem mobile */
+        }
+
+        .cc-mount-table th {
+            background: #e2e8f0;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 12px;
+            padding: 12px 10px;
+            text-align: left;
+        }
+
+        .cc-mount-table td {
+            padding: 10px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: middle;
+        }
+
+        .cc-total-row {
+            background-color: #f8fafc;
+            border-top: 2px solid var(--primary);
+        }
+
+        .cc-total-row td {
+            padding: 14px 10px;
+        }
+
+        .cc-total-label {
+            font-weight: 800;
+            color: var(--primary);
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        .cc-total-value {
+            font-size: 17px;
+            font-weight: 800;
+            color: #1e3a8a;
+            font-family: monospace;
+        }
+
+        .cc-total-notice {
+            font-size: 12px;
+            color: #64748b;
+            font-weight: 600;
+            font-style: italic;
+            margin-top: 8px;
+            display: block;
+            line-height: 1.4;
+        }
+
+        .btn-remove-rubrica {
+            background: none;
+            border: none;
+            color: var(--danger);
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 16px;
+            padding: 5px 10px;
+        }
+
+        /* Alertas e Caixas de Dica */
+        .alert-box {
+            background-color: #fffbeb;
+            border-left: 5px solid var(--accent);
+            color: #92400e;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Área de Navegação (Botões Ajustados para Celular) */
+        .nav-buttons-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 35px;
+            border-top: 2px solid #e2e8f0;
+            padding-top: 20px;
+            gap: 15px;
+        }
+
+        .btn-wizard {
+            padding: 14px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            text-transform: uppercase;
+            flex: 1; /* Faz os botões dividirem o espaço igualmente no mobile */
+            max-width: 260px;
+        }
+
+        .btn-wizard-prev {
+            background-color: #cbd5e1;
+            color: #334155;
+        }
+
+        .btn-wizard-next {
+            background-color: var(--secondary);
+            color: white;
+            margin-left: auto;
+        }
+
+        .invisible-btn { visibility: hidden; pointer-events: none; }
+
+        /* Card de Resultado Final */
+        .result-card {
+            background: #f0fdf4;
+            border: 2px dashed #86efac;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #dcfce7;
+            font-size: 15px;
+            gap: 10px;
+        }
+        .result-total {
+            font-size: 20px;
+            font-weight: 800;
+            color: #166534;
+            border-bottom: none;
+            padding-top: 15px;
+        }
+
+        /* Estrutura Exclusiva do Rodapé */
+        .footer-main-container {
+            margin-top: 30px;
+            margin-bottom: 15px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .footer-images-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-logo-img {
+            height: 40px;
+            width: auto;
+            max-width: 130px;
+        }
+
+        .footer-signature-text {
+            font-size: 12px;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* =======================================================
+             MEDIA QUERIES - REGRAS EXCLUSIVAS PARA CELULARES
+         ======================================================= -->
+        @media (max-width: 650px) {
+            body {
+                padding: 8px;
+            }
+            .wizard-container {
+                padding: 18px;
+                border-radius: 8px;
+            }
+            h2 {
+                font-size: 19px;
+            }
+            .form-grid-minimal {
+                grid-template-columns: 1fr; /* Transforma filtros superiores em bloco único vertical */
+                gap: 10px;
+            }
+            .rubrica-item-btn {
+                width: 100%; /* Botões de adicionar (+) ocupam a largura total para facilitar o toque */
+                justify-content: flex-start;
+                padding: 12px;
+            }
+            .result-item {
+                flex-direction: column; /* Alinha descrição e valor verticalmente no resultado mobile */
+                align-items: flex-start;
+                gap: 4px;
+            }
+            .result-item span:last-child {
+                align-self: flex-end;
+                font-weight: 700;
+            }
+            .result-total {
+                font-size: 18px;
+            }
+            .btn-wizard {
+                font-size: 13px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<img src="https://i.ibb.co/FkLCjrFV/Capturar-removebg-preview-1.png" class="header-main-logo" alt="Logo Principal TJPE">
+
+<div class="wizard-container">
+    <div class="progress-bar-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+
+    <div class="wizard-page active" id="page-1">
+        <h2>Bem-vindo ao Simulador PAI</h2>
+        <p>Esta ferramenta funciona como um guia passo a passo estruturado para te auxiliar a simular os valores decorrentes da adesão ao <strong>Programa de Aposentadoria Incentivada (PAI)</strong>.</p>
+        <p>Preencha os dados requisitados em cada tela e clique na seta <strong>PRÓXIMO</strong> abaixo para avançar no processo.</p>
+        
+        <div class="alert-box" style="background-color: #eff6ff; border-left-color: #3b82f6; color: #1e40af; margin-top: 30px;">
+            <strong>Aviso Institucional Importante:</strong><br>
+            - O valor da indenização aqui apresentado é fruto dos valores e informações digitadas pelo próprio servidor.<br>
+            - O Tribunal de Justiça de Pernambuco não se responsabiliza pelas informações aqui apresentadas e nem se vincula ao pagamento do valor da indenização aqui simulada.
+        </div>
+    </div>
+
+
+    <div class="wizard-page" id="page-2">
+        <h2>Passo 1: Saldo de Licenças-Prêmio</h2>
+        <p>Acesse o extrato da sua ficha funcional para levantar o seu histórico de períodos adquiridos.</p>
+
+        <div class="alert-box">
+            <strong>Dica:</strong><br>
+            Selecione a quantidade de decênios concedidos de Licença Prêmio, clicando nessa setinha pequena ao lado.<br>
+            Lembre-se que o decênio é o período de 10 anos de Efetivo Exercício.<br><br>
+            <strong>Exemplo:</strong><br>
+            Se você tem 35 anos de serviço<br>
+            Você tem 3 Decênios
+        </div>
+
+        <div class="form-group">
+            <label for="decenios">QUANTIDADE DE DECÊNIOS COMPLETOS ADQUIRIDOS NO TJPE:</label>
+            <select id="decenios">
+                <option value="0">0 Decênios</option>
+                <option value="1">1 Decênio (10 anos)</option>
+                <option value="2">2 Decênios (20 anos)</option>
+                <option value="3" selected>3 Decênios (30 anos)</option>
+                <option value="4">4 Decênios (40 anos)</option>
+                <option value="5">5 Decênios (50 anos)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="lp_gozadas">DIGITE A QUANTIDADE DE DIAS DE LICENÇAS-PRÊMIO QUE VOCÊ GOZOU:</label>
+            <input type="number" id="lp_gozadas" value="60" min="0">
+            <small style="color: #64748b; display: block; margin-top: 8px;">A quantidade preenchida precisa ser em DIAS. Caso não tenha gozado nenhum dia, deixe 0.</small>
+        </div>
+    </div>
+
+
+    <div class="wizard-page" id="page-3">
+        <h2>Passo 2: Saldo de Férias Acumuladas</h2>
+        <p>Informe o saldo acumulado total que será convertido de forma indenizatória.</p>
+
+        <div class="form-group">
+            <label for="ferias_nao_gozadas">DIGITE A QUANTIDADE DE DIAS DE FÉRIAS NÃO GOZADAS:</label>
+            <input type="number" id="ferias_nao_gozadas" value="60" min="0">
+            <small style="color: #64748b; display: block; margin-top: 8px;">A quantidade preenchida deve ser informada estritamente em número de DIAS. Se não houver saldo, digite 0.</small>
+        </div>
+    </div>
+
+
+    <div class="wizard-page" id="page-4">
+        <h2>Passo 3: Monte seu Contracheque</h2>
+        <p>Configure seus parâmetros bases e clique nos botões de <strong>(+)</strong> para incluir e liberar as verbas desejadas na montagem abaixo.</p>
+        
+        <div class="form-group form-grid-minimal">
+            <div>
+                <label for="select-vinculo">VÍNCULO</label>
+                <select id="select-vinculo" onchange="atualizarInterfaceFiltros()">
+                    <option value="EFETIVO" selected>Efetivo</option>
+                    <option value="ESTABILIZADO">Estabilizado</option>
+                </select>
+            </div>
+            <div id="wrapper-cargo">
+                <label for="select-cargo">CARGO</label>
+                <select id="select-cargo" onchange="obterVencimentoTabelaOriginal()">
+                    <option value="TECNICO" selected>Técnico</option>
+                    <option value="ANALISTA">Analista</option>
+                    <option value="OFICIAL">Oficial de Justiça</option>
+                </select>
+            </div>
+            <div id="wrapper-padrao">
+                <label for="select-padrao">PADRÃO SALARIAL</label>
+                <select id="select-padrao" onchange="obterVencimentoTabelaOriginal()"></select>
+            </div>
+        </div>
+
+        <div class="rubricas-menu-box">
+            <div class="rubricas-menu-title">Clique para Adicionar Rubricas ao Contracheque:</div>
+            <div class="rubricas-list" id="rubricas-disponiveis-list">
+                </div>
+        </div>
+
+        <div class="contracheque-mount-area">
+            <div class="cc-mount-header">Contracheque em Simulação</div>
+            <div class="table-responsive-wrapper">
+                <table class="cc-mount-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50%;">Descrição da Rubrica</th>
+                            <th style="width: 40%;">Valor (R$)</th>
+                            <th style="width: 10%; text-align: center;">Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cc-mount-tbody">
+                        </tbody>
+                    <tfoot>
+                        <tr class="cc-total-row">
+                            <td class="cc-total-label">Subtotal / Somatório</td>
+                            <td class="cc-total-value" id="cc-total-display">R$ 0,00</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <span class="cc-total-notice">* Atenção: Este total acumulado representa o Valor Base para a Indenização do PAI.</span>
+    </div>
+
+
+    <div class="wizard-page" id="page-5">
+        <h2>Resultado Final Consolidado</h2>
+        <p>Confira abaixo o demonstrativo financeiro indenizatório puramente líquido gerado com base nos seus parâmetros:</p>
+
+        <div class="result-card">
+            <div class="result-item">
+                <span>Total de Dias de Licença-Prêmio Adquiridos (Histórico):</span>
+                <span id="res_dias_lp" style="font-weight: 600;">0 dias</span>
+            </div>
+            <div class="result-item">
+                <span>Saldo Líquido de Dias Convertidos em Pecúnia:</span>
+                <span id="res_saldo_lp" style="font-weight: 600;">0 dias</span>
+            </div>
+            <div class="result-item">
+                <span>Valor Base Calculado (Montante do Contracheque):</span>
+                <span id="res_base_venc" style="font-weight: 600; color: #1e3a8a;">R$ 0,00</span>
+            </div>
+            <div class="result-item">
+                <span>( A ) Indenização por Licença-Prêmio:</span>
+                <span id="res_valor_lp" style="font-weight: 600; color: #0d9488;">R$ 0,00</span>
+            </div>
+            <div class="result-item">
+                <span>( B ) Indenização por Férias Não Gozadas:</span>
+                <span id="res_valor_ferias" style="font-weight: 600; color: #0d9488;">R$ 0,00</span>
+            </div>
+            <div class="result-item result-total">
+                <span>TOTAL DA INDENIZAÇÃO DO PAI (A + B):</span>
+                <span id="res_total_pai">R$ 0,00</span>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="nav-buttons-container">
+        <button class="btn-wizard btn-wizard-prev invisible-btn" id="btnPrev" onclick="changePage(-1)">
+            &#8592; Anterior
+        </button>
+        <button class="btn-wizard btn-wizard-next" id="btnNext" onclick="changePage(1)">
+            Próximo &#8594;
+        </button>
+    </div>
+</div>
+
+<div class="footer-main-container">
+    <div class="footer-images-row">
+        <img src="https://i.ibb.co/hxBBp3g6/image-Photoroom.png" class="footer-logo-img" alt="Logo DGF">
+        <img src="https://i.ibb.co/yc32bwv5/Logo-DGF-upscaled-Photoroom.png" class="footer-logo-img" alt="Logo Adicional">
+    </div>
+    <div class="footer-signature-text">SGP-DGF-2026</div>
+</div>
+
+
+<script>
+    const AJUSTES_SALARIAIS = [1.053]; 
+    const getFatorAcumulado = (lista) => lista.reduce((acc, curr) => acc * curr, 1);
+    const fSal = getFatorAcumulado(AJUSTES_SALARIAIS);
+
+    const tabelaSalarial = [
+        {p: "P01", tecnico: 6005.32, oficial: 7434.03, analista: 7825.32},
+        {p: "P02", tecnico: 6164.45, oficial: 7631.04, analista: 8032.69},
+        {p: "P03", tecnico: 6337.08, oficial: 7844.72, analista: 8257.59},
+        {p: "P04", tecnico: 6524.04, oficial: 8076.13, analista: 8501.20},
+        {p: "P05", tecnico: 6726.26, oficial: 8326.49, analista: 8764.72},
+        {p: "P06", tecnico: 6944.85, oficial: 8597.11, analista: 9049.60},
+        {p: "P07", tecnico: 7181.00, oficial: 8889.42, analista: 9357.29},
+        {p: "P08", tecnico: 7435.92, oficial: 9204.99, analista: 9689.45},
+        {p: "P09", tecnico: 7711.05, oficial: 9545.58, analista: 10047.97},
+        {p: "P10", tecnico: 8007.94, oficial: 9913.07, analista: 10434.83},
+        {p: "P11", tecnico: 8328.22, oficial: 10309.59, analista: 10852.20},
+        {p: "P12", tecnico: 8827.94, oficial: 10928.18, analista: 11503.34},
+        {p: "P13", tecnico: 9445.90, oficial: 11693.13, analista: 12308.58},
+        {p: "P14", tecnico: 10201.54, oficial: 12628.60, analista: 13293.27},
+        {p: "P15", tecnico: 11119.71, oficial: 13765.15, analista: 14489.66},
+        {p: "P16", tecnico: 12231.66, oficial: 15141.69, analista: 15938.64},
+        {p: "P17", tecnico: 13577.14, oficial: 16807.28, analista: 17691.87},
+        {p: "P18", tecnico: 15206.39, oficial: 18824.14, analista: 19814.88},
+        {p: "P19", tecnico: 17183.24, oficial: 21271.28, analista: 22390.82},
+        {p: "P20", tecnico: 19588.89, oficial: 24249.28, analista: 25525.53},
+        {p: "P21", tecnico: 22527.23, oficial: 27886.68, analista: 29354.38}
+    ];
+
+    let rubricasContrachequeAtivas = {};
+    let currentPage = 1;
+    const totalPages = 5;
+
+    window.onload = () => {
+        const selectPadrao = document.getElementById('select-padrao');
+        tabelaSalarial.forEach(item => selectPadrao.add(new Option(item.p, item.p)));
+        atualizarInterfaceFiltros();
+    };
+
+    function atualizarInterfaceFiltros() {
+        const vinculo = document.getElementById('select-vinculo').value;
+        const wCargo = document.getElementById('wrapper-cargo');
+        const wPadrao = document.getElementById('wrapper-padrao');
+
+        rubricasContrachequeAtivas = {};
+
+        if (vinculo === 'ESTABILIZADO') {
+            wCargo.style.display = 'none';
+            wPadrao.style.display = 'none';
+            
+            rubricasContrachequeAtivas['salario_base'] = { label: 'Salário Base', valor: 0, manual: true };
+            rubricasContrachequeAtivas['gratificacao_exercicio'] = { label: 'Gratificação de Exercício', valor: 0, manual: true };
+            rubricasContrachequeAtivas['gratificacao_incentivo'] = { label: 'Gratificação de Incentivo à Produtividade', valor: 0, manual: true };
+        } else {
+            wCargo.style.display = 'block';
+            wPadrao.style.display = 'block';
+            
+            rubricasContrachequeAtivas['vencimento_base'] = { label: 'VENCIMENTO BASE', valor: 0, manual: false };
+        }
+
+        renderizarMenuRubricasDisponiveis();
+        obterVencimentoTabelaOriginal();
+    }
+
+    function renderizarMenuRubricasDisponiveis() {
+        const listContainer = document.getElementById('rubricas-disponiveis-list');
+        listContainer.innerHTML = '';
+
+        const opcoesGerais = [
+            { id: 'adicional_qualificacao', label: 'Adicional de Qualificação' },
+            { id: 'quinquenios', label: 'Quinquênios' },
+            { id: 'estabilidade_financeira', label: 'Estabilidade Financeira' },
+            { id: 'parcela_autonoma', label: 'Parcela Autônoma' },
+            { id: 'gip', label: 'GIP' },
+            { id: 'gratificacoes_incorporadas', label: 'Gratificações Incorporadas' },
+            { id: 'incentivo_informado', label: 'Incentivo Informado' },
+            { id: 'incorporacoes', label: 'Incorporações' }
+        ];
+
+        opcoesGerais.forEach(opt => {
+            if (!rubricasContrachequeAtivas[opt.id]) {
+                const btn = document.createElement('button');
+                btn.className = 'rubrica-item-btn';
+                btn.innerHTML = `<span class="plus-icon">+</span> ${opt.label}`;
+                btn.onclick = () => adicionarRubricaAoContracheque(opt.id, opt.label);
+                listContainer.appendChild(btn);
+            }
+        });
+    }
+
+    function obterVencimentoTabelaOriginal() {
+        const vinculo = document.getElementById('select-vinculo').value;
+        if (vinculo === 'EFETIVO') {
+            const cargo = document.getElementById('select-cargo').value;
+            const padrao = document.getElementById('select-padrao').value;
+            
+            if (!padrao) return;
+
+            const dP = tabelaSalarial.find(x => x.p === padrao);
+            
+            let valorTab = 0;
+            if (cargo === 'TECNICO') valorTab = dP.tecnico * fSal;
+            else if (cargo === 'ANALISTA') valorTab = dP.analista * fSal;
+            else if (cargo === 'OFICIAL') valorTab = dP.oficial * fSal;
+
+            if (rubricasContrachequeAtivas['vencimento_base']) {
+                rubricasContrachequeAtivas['vencimento_base'].valor = valorTab;
+            }
+        }
+        reconstruirTabelaContracheque();
+    }
+
+    function adicionarRubricaAoContracheque(id, label) {
+        rubricasContrachequeAtivas[id] = { label: label, valor: 0, manual: true };
+        renderizarMenuRubricasDisponiveis();
+        reconstruirTabelaContracheque();
+    }
+
+    function removerRubricaDoContracheque(id) {
+        delete rubricasContrachequeAtivas[id];
+        renderizarMenuRubricasDisponiveis();
+        reconstruirTabelaContracheque();
+    }
+
+    function atualizarValorRubrica(id, valor) {
+        if (rubricasContrachequeAtivas[id]) {
+            rubricasContrachequeAtivas[id].valor = parseFloat(valor) || 0;
+        }
+        atualizarSubtotalEmTempoReal();
+    }
+
+    function obterSomatorioAcumulado() {
+        let brutoMontadoAcumulado = 0;
+        Object.keys(rubricasContrachequeAtivas).forEach(id => {
+            brutoMontadoAcumulado += rubricasContrachequeAtivas[id].valor;
+        });
+        return brutoMontadoAcumulado;
+    }
+
+    function atualizarSubtotalEmTempoReal() {
+        const total = obterSomatorioAcumulado();
+        document.getElementById('cc-total-display').innerText = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    function reconstruirTabelaContracheque() {
+        const tbody = document.getElementById('cc-mount-tbody');
+        tbody.innerHTML = '';
+
+        Object.keys(rubricasContrachequeAtivas).forEach(id => {
+            const item = rubricasContrachequeAtivas[id];
+            const tr = document.createElement('tr');
+
+            const tdLabel = document.createElement('td');
+            tdLabel.innerHTML = `<strong>${item.label}</strong>`;
+            tr.appendChild(tdLabel);
+
+            const tdValor = document.createElement('td');
+            if (item.manual) {
+                tdValor.innerHTML = `<input type="number" value="${item.valor === 0 ? '' : item.valor}" placeholder="0,00" step="0.01" oninput="atualizarValorRubrica('${id}', this.value)">`;
+            } else {
+                tdValor.innerHTML = `<input type="text" value="${item.valor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}" readonly style="background:#e2e8f0; color:#334155;">`;
+            }
+            tr.appendChild(tdValor);
+
+            const tdAcao = document.createElement('td');
+            tdAcao.style.textAlign = 'center';
+            
+            const trFixas = ['vencimento_base', 'salario_base', 'gratificacao_exercicio', 'gratificacao_incentivo'];
+            if (!trFixas.includes(id)) {
+                tdAcao.innerHTML = `<button class="btn-remove-rubrica" onclick="removerRubricaDoContracheque('${id}')" title="Remover">🗑️</button>`;
+            } else {
+                tdAcao.innerHTML = `-`;
+            }
+            tr.appendChild(tdAcao);
+
+            tbody.appendChild(tr);
+        });
+
+        atualizarSubtotalEmTempoReal();
+    }
+
+    function changePage(direction) {
+        if (currentPage === 4 && direction === 1) {
+            calcularResultados();
+        }
+
+        document.getElementById(`page-${currentPage}`).classList.remove('active');
+        currentPage += direction;
+        document.getElementById(`page-${currentPage}`).classList.add('active');
+
+        if (currentPage === 1) {
+            document.getElementById('btnPrev').classList.add('invisible-btn');
+        } else {
+            document.getElementById('btnPrev').classList.remove('invisible-btn');
+        }
+        
+        if (currentPage === totalPages) {
+            document.getElementById('btnNext').classList.add('invisible-btn');
+        } else {
+            document.getElementById('btnNext').classList.remove('invisible-btn');
+            if (currentPage === totalPages - 1) {
+                document.getElementById('btnNext').innerHTML = "CONCLUIR E CALCULAR &#128187;";
+            } else {
+                document.getElementById('btnNext').innerHTML = "Próximo &#8594;";
+            }
+        }
+
+        const progressPercent = (currentPage / totalPages) * 100;
+        document.getElementById('progressBar').style.width = `${progressPercent}%`;
+    }
+
+    function calcularResultados() {
+        const decenios = parseInt(document.getElementById('decenios').value) || 0;
+        const lpGozadas = parseFloat(document.getElementById('lp_gozadas').value) || 0;
+        const feriasNaoGozadas = parseFloat(document.getElementById('ferias_nao_gozadas').value) || 0;
+
+        let brutoMontadoAcumulado = obterSomatorioAcumulado();
+
+        const diasDevidosLP = decenios * 180;
+        const saldoDiasLP = Math.max(0, diasDevidosLP - lpGozadas);
+        
+        const valorIndenizacaoLP = (brutoMontadoAcumulado / 30) * saldoDiasLP;
+        const valorIndenizacaoFerias = (brutoMontadoAcumulado / 30) * feriasNaoGozadas;
+        const totalPAI = valorIndenizacaoLP + valorIndenizacaoFerias;
+
+        document.getElementById('res_dias_lp').innerText = `${diasDevidosLP} dias`;
+        document.getElementById('res_saldo_lp').innerText = `${saldoDiasLP} dias`;
+        document.getElementById('res_base_venc').innerText = brutoMontadoAcumulado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        document.getElementById('res_valor_lp').innerText = valorIndenizacaoLP.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        document.getElementById('res_valor_ferias').innerText = valorIndenizacaoFerias.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        document.getElementById('res_total_pai').innerText = totalPAI.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+</script>
+
+</body>
+</html>
