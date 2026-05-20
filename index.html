@@ -108,7 +108,6 @@
             border-left: 5px solid var(--primary);
         }
 
-        /* Grid Minimalista que vira 1 coluna no celular */
         .form-grid-minimal {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -190,7 +189,7 @@
             font-weight: 800;
         }
 
-        /* Tabela Dinâmica do Contracheque Montado com Segurança Responsiva */
+        /* Tabela Dinâmica do Contracheque Montado */
         .contracheque-mount-area {
             margin-top: 25px;
             border: 2px solid var(--primary);
@@ -217,7 +216,7 @@
         .cc-mount-table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 500px; /* Garante que a tabela mantenha a estrutura na rolagem mobile */
+            min-width: 500px;
         }
 
         .cc-mount-table th {
@@ -278,19 +277,51 @@
             padding: 5px 10px;
         }
 
-        /* Alertas e Caixas de Dica */
-        .alert-box {
-            background-color: #fffbeb;
-            border-left: 5px solid var(--accent);
-            color: #92400e;
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 25px;
-            font-size: 14px;
-            line-height: 1.5;
+        /* Estruturas das Seções de Destaque Final */
+        .result-section-box {
+            background: #f8fafc;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
         }
 
-        /* Área de Navegação (Botões Ajustados para Celular) */
+        .result-section-title {
+            font-weight: 800;
+            font-size: 13px;
+            color: var(--primary);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.15);
+            padding-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 15px;
+            gap: 10px;
+        }
+
+        .result-section-box .result-item:last-of-type {
+            border-bottom: none;
+        }
+
+        .result-total {
+            font-size: 20px;
+            font-weight: 800;
+            color: #166534;
+            border-top: 2px solid #86efac;
+            padding-top: 15px;
+            margin-top: 5px;
+        }
+
+        /* Área de Navegação (Botões) */
         .nav-buttons-container {
             display: flex;
             justify-content: space-between;
@@ -315,47 +346,13 @@
             transition: all 0.2s ease-in-out;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
             text-transform: uppercase;
-            flex: 1; /* Faz os botões dividirem o espaço igualmente no mobile */
+            flex: 1;
             max-width: 260px;
         }
 
-        .btn-wizard-prev {
-            background-color: #cbd5e1;
-            color: #334155;
-        }
-
-        .btn-wizard-next {
-            background-color: var(--secondary);
-            color: white;
-            margin-left: auto;
-        }
-
+        .btn-wizard-prev { background-color: #cbd5e1; color: #334155; }
+        .btn-wizard-next { background-color: var(--secondary); color: white; margin-left: auto; }
         .invisible-btn { visibility: hidden; pointer-events: none; }
-
-        /* Card de Resultado Final */
-        .result-card {
-            background: #f0fdf4;
-            border: 2px dashed #86efac;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 15px;
-        }
-        .result-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #dcfce7;
-            font-size: 15px;
-            gap: 10px;
-        }
-        .result-total {
-            font-size: 20px;
-            font-weight: 800;
-            color: #166534;
-            border-bottom: none;
-            padding-top: 15px;
-        }
 
         /* Estrutura Exclusiva do Rodapé */
         .footer-main-container {
@@ -391,45 +388,17 @@
             letter-spacing: 1px;
         }
 
-        /* =======================================================
-             MEDIA QUERIES - REGRAS EXCLUSIVAS PARA CELULARES
-         ======================================================= -->
+        /* Responsive Media Queries Mobile */
         @media (max-width: 650px) {
-            body {
-                padding: 8px;
-            }
-            .wizard-container {
-                padding: 18px;
-                border-radius: 8px;
-            }
-            h2 {
-                font-size: 19px;
-            }
-            .form-grid-minimal {
-                grid-template-columns: 1fr; /* Transforma filtros superiores em bloco único vertical */
-                gap: 10px;
-            }
-            .rubrica-item-btn {
-                width: 100%; /* Botões de adicionar (+) ocupam a largura total para facilitar o toque */
-                justify-content: flex-start;
-                padding: 12px;
-            }
-            .result-item {
-                flex-direction: column; /* Alinha descrição e valor verticalmente no resultado mobile */
-                align-items: flex-start;
-                gap: 4px;
-            }
-            .result-item span:last-child {
-                align-self: flex-end;
-                font-weight: 700;
-            }
-            .result-total {
-                font-size: 18px;
-            }
-            .btn-wizard {
-                font-size: 13px;
-                padding: 12px;
-            }
+            body { padding: 8px; }
+            .wizard-container { padding: 18px; border-radius: 8px; }
+            h2 { font-size: 19px; }
+            .form-grid-minimal { grid-template-columns: 1fr; gap: 10px; }
+            .rubrica-item-btn { width: 100%; justify-content: flex-start; padding: 12px; }
+            .result-item { flex-direction: column; align-items: flex-start; gap: 4px; border-bottom: 1px solid #e2e8f0; padding: 10px 0; }
+            .result-item span:last-child { align-self: flex-end; font-weight: 700; }
+            .result-total { font-size: 18px; flex-direction: column; align-items: flex-start; }
+            .btn-wizard { font-size: 13px; padding: 12px; }
         }
     </style>
 </head>
@@ -491,12 +460,29 @@
 
     <div class="wizard-page" id="page-3">
         <h2>Passo 2: Saldo de Férias Acumuladas</h2>
-        <p>Informe o saldo acumulado total que será convertido de forma indenizatória.</p>
+        <p>Informe o saldo acumulado total e os dias de abono regulamentares que serão computados.</p>
 
         <div class="form-group">
             <label for="ferias_nao_gozadas">DIGITE A QUANTIDADE DE DIAS DE FÉRIAS NÃO GOZADAS:</label>
             <input type="number" id="ferias_nao_gozadas" value="60" min="0">
-            <small style="color: #64748b; display: block; margin-top: 8px;">A quantidade preenchida deve ser informada estritamente em número de DIAS. Se não houver saldo, digite 0.</small>
+            <small style="color: #64748b; display: block; margin-top: 8px;">A quantidade preenchida deve ser informada em número de DIAS. Se não houver saldo, digite 0.</small>
+        </div>
+
+        <div class="form-group">
+            <label for="abono_ferias">SELECIONE A QUANTIDADE DE ABONO DE FÉRIAS:</label>
+            <select id="abono_ferias">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
         </div>
     </div>
 
@@ -562,21 +548,30 @@
 
     <div class="wizard-page" id="page-5">
         <h2>Resultado Final Consolidado</h2>
-        <p>Confira abaixo o demonstrativo financeiro indenizatório puramente líquido gerado com base nos seus parâmetros:</p>
+        <p>Confira abaixo o demonstrativo financeiro detalhado estruturado por eixos estratégicos de validação:</p>
 
-        <div class="result-card">
+        <div class="result-section-box">
+            <div class="result-section-title">Controle de Dias (Licença-Prêmio)</div>
             <div class="result-item">
                 <span>Total de Dias de Licença-Prêmio Adquiridos (Histórico):</span>
                 <span id="res_dias_lp" style="font-weight: 600;">0 dias</span>
             </div>
             <div class="result-item">
                 <span>Saldo Líquido de Dias Convertidos em Pecúnia:</span>
-                <span id="res_saldo_lp" style="font-weight: 600;">0 dias</span>
+                <span id="res_saldo_lp" style="font-weight: 600; color: var(--primary);">0 dias</span>
             </div>
-            <div class="result-item">
-                <span>Valor Base Calculado (Montante do Contracheque):</span>
-                <span id="res_base_venc" style="font-weight: 600; color: #1e3a8a;">R$ 0,00</span>
+        </div>
+
+        <div class="result-section-box" style="border-color: #3b82f6; background-color: #eff6ff;">
+            <div class="result-section-title" style="color: #1d4ed8; border-bottom-color: rgba(29, 78, 216, 0.2);">Valor Base Calculado</div>
+            <div class="result-item" style="border-bottom: none;">
+                <span>Montante do Contracheque Consolidado:</span>
+                <span id="res_base_venc" style="font-weight: 700; color: #1e3a8a; font-size: 16px;">R$ 0,00</span>
             </div>
+        </div>
+
+        <div class="result-section-box" style="border-color: #10b981; background-color: #f0fdf4;">
+            <div class="result-section-title" style="color: #047857; border-bottom-color: rgba(4, 120, 87, 0.2);">Demonstrativo das Indenizações</div>
             <div class="result-item">
                 <span>( A ) Indenização por Licença-Prêmio:</span>
                 <span id="res_valor_lp" style="font-weight: 600; color: #0d9488;">R$ 0,00</span>
@@ -585,8 +580,12 @@
                 <span>( B ) Indenização por Férias Não Gozadas:</span>
                 <span id="res_valor_ferias" style="font-weight: 600; color: #0d9488;">R$ 0,00</span>
             </div>
+            <div class="result-item">
+                <span>( B.2 ) Abono de Férias:</span>
+                <span id="res_valor_abono" style="font-weight: 600; color: #0d9488;">R$ 0,00</span>
+            </div>
             <div class="result-item result-total">
-                <span>TOTAL DA INDENIZAÇÃO DO PAI (A + B):</span>
+                <span>TOTAL DA INDENIZAÇÃO DO PAI (A + B + B.2):</span>
                 <span id="res_total_pai">R$ 0,00</span>
             </div>
         </div>
@@ -605,8 +604,8 @@
 
 <div class="footer-main-container">
     <div class="footer-images-row">
-        <img src="https://i.ibb.co/hxBBp3g6/image-Photoroom.png" class="footer-logo-img" alt="Logo DGF">
-        <img src="https://i.ibb.co/yc32bwv5/Logo-DGF-upscaled-Photoroom.png" class="footer-logo-img" alt="Logo Adicional">
+        <img src="https://i.ibb.co/yc32bwv5/Logo-DGF-upscaled-Photoroom.png" class="footer-logo-img" alt="Logo DGF">
+        <img src="https://i.ibb.co/hxBBp3g6/image-Photoroom.png" class="footer-logo-img" alt="Logo Adicional">
     </div>
     <div class="footer-signature-text">SGP-DGF-2026</div>
 </div>
@@ -827,21 +826,38 @@
         const decenios = parseInt(document.getElementById('decenios').value) || 0;
         const lpGozadas = parseFloat(document.getElementById('lp_gozadas').value) || 0;
         const feriasNaoGozadas = parseFloat(document.getElementById('ferias_nao_gozadas').value) || 0;
+        const abonoFeriasDias = parseInt(document.getElementById('abono_ferias').value) || 0;
 
         let brutoMontadoAcumulado = obterSomatorioAcumulado();
+
+        // Isolamento exclusivo do Vencimento Base ou Salário Base puro para cálculo do abono
+        const vinculo = document.getElementById('select-vinculo').value;
+        let baseSalarialPura = 0;
+        if (vinculo === 'ESTABILIZADO') {
+            if (rubricasContrachequeAtivas['salario_base']) baseSalarialPura = rubricasContrachequeAtivas['salario_base'].valor;
+        } else {
+            if (rubricasContrachequeAtivas['vencimento_base']) baseSalarialPura = rubricasContrachequeAtivas['vencimento_base'].valor;
+        }
 
         const diasDevidosLP = decenios * 180;
         const saldoDiasLP = Math.max(0, diasDevidosLP - lpGozadas);
         
+        // Fórmulas parametrizadas de Indenização
         const valorIndenizacaoLP = (brutoMontadoAcumulado / 30) * saldoDiasLP;
         const valorIndenizacaoFerias = (brutoMontadoAcumulado / 30) * feriasNaoGozadas;
-        const totalPAI = valorIndenizacaoLP + valorIndenizacaoFerias;
+        
+        // Fórmula Exata B.2: Numero Selecionado x 1/3 do Vencimento/Salário Base
+        const valorAbonoFerias = abonoFeriasDias * (1 / 3) * baseSalarialPura;
+        
+        const totalPAI = valorIndenizacaoLP + valorIndenizacaoFerias + valorAbonoFerias;
 
+        // Injeção nos blocos de Destaque
         document.getElementById('res_dias_lp').innerText = `${diasDevidosLP} dias`;
         document.getElementById('res_saldo_lp').innerText = `${saldoDiasLP} dias`;
         document.getElementById('res_base_venc').innerText = brutoMontadoAcumulado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         document.getElementById('res_valor_lp').innerText = valorIndenizacaoLP.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         document.getElementById('res_valor_ferias').innerText = valorIndenizacaoFerias.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        document.getElementById('res_valor_abono').innerText = valorAbonoFerias.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         document.getElementById('res_total_pai').innerText = totalPAI.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     }
 </script>
