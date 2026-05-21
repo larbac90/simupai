@@ -321,6 +321,18 @@
             margin-top: 5px;
         }
 
+        /* Alertas e Caixas de Dica */
+        .alert-box {
+            background-color: #fffbeb;
+            border-left: 5px solid var(--accent);
+            color: #92400e;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
         /* Área de Navegação (Botões) */
         .nav-buttons-container {
             display: flex;
@@ -557,15 +569,19 @@
                 <span id="res_dias_lp" style="font-weight: 600;">0 dias</span>
             </div>
             <div class="result-item">
+                <span>(-) Dias de Licenças-Prêmio Gozadas:</span>
+                <span id="res_gozadas_lp" style="font-weight: 600; color: var(--danger);">0 dias</span>
+            </div>
+            <div class="result-item">
                 <span>Saldo Líquido de Dias Convertidos em Pecúnia:</span>
-                <span id="res_saldo_lp" style="font-weight: 600; color: var(--primary);">0 dias</span>
+                <span id="res_saldo_lp" style="font-weight: 700; color: var(--secondary);">0 dias</span>
             </div>
         </div>
 
         <div class="result-section-box" style="border-color: #3b82f6; background-color: #eff6ff;">
             <div class="result-section-title" style="color: #1d4ed8; border-bottom-color: rgba(29, 78, 216, 0.2);">Valor Base Calculado</div>
             <div class="result-item" style="border-bottom: none;">
-                <span>Montante do Contracheque Consolidado:</span>
+                <span>Montante do Contracheque Consolidado (Valor Base):</span>
                 <span id="res_base_venc" style="font-weight: 700; color: #1e3a8a; font-size: 16px;">R$ 0,00</span>
             </div>
         </div>
@@ -589,6 +605,12 @@
                 <span id="res_total_pai">R$ 0,00</span>
             </div>
         </div>
+
+        <div class="alert-box" style="background-color: #ffebee; border-left-color: #3b82f6; color: #c62828; margin-top: 25px; margin-bottom: 5px;">
+            <strong>Aviso Institucional Importante:</strong><br>
+            - O valor da indenização aqui apresentado é fruto dos valores e informações digitadas pelo próprio servidor.<br>
+            - O Tribunal de Justiça de Pernambuco não se responsabiliza pelas informações aqui apresentadas e nem se vincula ao pagamento do valor da indenização aqui simulada.
+        </div>
     </div>
 
 
@@ -604,8 +626,8 @@
 
 <div class="footer-main-container">
     <div class="footer-images-row">
-        <img src="https://i.ibb.co/yc32bwv5/Logo-DGF-upscaled-Photoroom.png" class="footer-logo-img" alt="Logo DGF">
-        <img src="https://i.ibb.co/hxBBp3g6/image-Photoroom.png" class="footer-logo-img" alt="Logo Adicional">
+        <img src="https://i.ibb.co/hxBBp3g6/image-Photoroom.png" class="footer-logo-img" alt="Logo DGF">
+        <img src="https://i.ibb.co/yc32bwv5/Logo-DGF-upscaled-Photoroom.png" class="footer-logo-img" alt="Logo Adicional">
     </div>
     <div class="footer-signature-text">SGP-DGF-2026</div>
 </div>
@@ -830,7 +852,6 @@
 
         let brutoMontadoAcumulado = obterSomatorioAcumulado();
 
-        // Isolamento exclusivo do Vencimento Base ou Salário Base puro para cálculo do abono
         const vinculo = document.getElementById('select-vinculo').value;
         let baseSalarialPura = 0;
         if (vinculo === 'ESTABILIZADO') {
@@ -842,17 +863,15 @@
         const diasDevidosLP = decenios * 180;
         const saldoDiasLP = Math.max(0, diasDevidosLP - lpGozadas);
         
-        // Fórmulas parametrizadas de Indenização
         const valorIndenizacaoLP = (brutoMontadoAcumulado / 30) * saldoDiasLP;
         const valorIndenizacaoFerias = (brutoMontadoAcumulado / 30) * feriasNaoGozadas;
         
-        // Fórmula Exata B.2: Numero Selecionado x 1/3 do Vencimento/Salário Base
         const valorAbonoFerias = abonoFeriasDias * (1 / 3) * baseSalarialPura;
         
         const totalPAI = valorIndenizacaoLP + valorIndenizacaoFerias + valorAbonoFerias;
 
-        // Injeção nos blocos de Destaque
         document.getElementById('res_dias_lp').innerText = `${diasDevidosLP} dias`;
+        document.getElementById('res_gozadas_lp').innerText = `${lpGozadas} dias`;
         document.getElementById('res_saldo_lp').innerText = `${saldoDiasLP} dias`;
         document.getElementById('res_base_venc').innerText = brutoMontadoAcumulado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         document.getElementById('res_valor_lp').innerText = valorIndenizacaoLP.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
