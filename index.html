@@ -9,11 +9,11 @@
         :root {
             --primary: #2c3e50;
             --secondary: #0d9488;
-            --accent: #f59e0b;
+            --accent: #d97706; /* Ajustado para um amarelo mais escuro/visível */
             --bg: #f1f5f9;
             --text: #1e293b;
             --card-bg: #ffffff;
-            --border: #cbd5e1;
+            --border: #94a3b8; /* Linhas mais escuras para maior contraste */
             --danger: #dc2626;
             --success: #16a34a;
         }
@@ -57,7 +57,7 @@
         .progress-bar-container {
             width: 100%;
             background-color: #e2e8f0;
-            height: 8px;
+            height: 10px; /* Mais espessa para fácil visualização */
             border-radius: 10px;
             margin-bottom: 25px;
             overflow: hidden;
@@ -87,7 +87,7 @@
 
         h2 {
             color: var(--primary);
-            font-size: 22px;
+            font-size: 24px;
             margin-top: 0;
             border-bottom: 2px solid #f1f5f9;
             padding-bottom: 12px;
@@ -95,8 +95,8 @@
 
         p {
             line-height: 1.6;
-            color: #475569;
-            font-size: 15px;
+            color: #1e293b; /* Texto escuro de alto contraste */
+            font-size: 16px;
         }
 
         /* Inputs e Formulários */
@@ -105,7 +105,7 @@
             background: #f8fafc;
             padding: 15px;
             border-radius: 8px;
-            border-left: 5px solid var(--primary);
+            border-left: 6px solid var(--primary);
         }
 
         .form-grid-minimal {
@@ -119,15 +119,15 @@
             font-weight: 700;
             margin-bottom: 8px;
             color: var(--primary);
-            font-size: 13px;
+            font-size: 14px;
         }
 
         input[type="number"], select, input[type="text"] {
             width: 100%;
-            padding: 12px;
+            padding: 14px; /* Maior área de toque */
             border: 2px solid var(--border);
             border-radius: 6px;
-            font-size: 15px;
+            font-size: 16px; /* Evita zoom automático em telas mobile */
             box-sizing: border-box;
             font-weight: 600;
             color: var(--primary);
@@ -138,7 +138,7 @@
         input:focus, select:focus {
             outline: none;
             border-color: var(--secondary);
-            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+            box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.25);
         }
 
         /* Menu de Adição Dinâmica (+) */
@@ -152,9 +152,9 @@
 
         .rubricas-menu-title {
             font-weight: 700;
-            font-size: 13px;
+            font-size: 14px;
             color: var(--primary);
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             text-transform: uppercase;
         }
 
@@ -166,11 +166,11 @@
 
         .rubrica-item-btn {
             background: #fff;
-            border: 1px solid var(--border);
-            padding: 10px 14px;
+            border: 2px solid var(--border);
+            padding: 12px 16px; /* Botões maiores para cliques fáceis */
             border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 14px;
+            font-weight: 700;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -186,7 +186,8 @@
 
         .rubrica-item-btn .plus-icon {
             color: var(--success);
-            font-weight: 800;
+            font-weight: 900;
+            font-size: 16px;
         }
 
         /* Tabela Dinâmica do Contracheque Montado */
@@ -208,7 +209,7 @@
             color: #fff;
             padding: 12px;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 15px;
             text-align: center;
             text-transform: uppercase;
         }
@@ -223,15 +224,16 @@
             background: #e2e8f0;
             color: var(--primary);
             font-weight: 700;
-            font-size: 12px;
+            font-size: 13px;
             padding: 12px 10px;
             text-align: left;
         }
 
         .cc-mount-table td {
-            padding: 10px;
-            border-bottom: 1px solid #e2e8f0;
+            padding: 12px 10px;
+            border-bottom: 1px solid #cbd5e1;
             vertical-align: middle;
+            font-size: 15px;
         }
 
         .cc-total-row {
@@ -240,41 +242,46 @@
         }
 
         .cc-total-row td {
-            padding: 14px 10px;
+            padding: 16px 10px;
         }
 
         .cc-total-label {
             font-weight: 800;
             color: var(--primary);
-            font-size: 14px;
+            font-size: 15px;
             text-transform: uppercase;
         }
 
         .cc-total-value {
-            font-size: 17px;
+            font-size: 19px;
             font-weight: 800;
             color: #1e3a8a;
             font-family: monospace;
         }
 
         .cc-total-notice {
-            font-size: 12px;
-            color: #64748b;
-            font-weight: 600;
+            font-size: 13px;
+            color: #334155;
+            font-weight: 700;
             font-style: italic;
             margin-top: 8px;
             display: block;
             line-height: 1.4;
         }
 
+        /* Botão de Excluir Robusto (Acessível) */
         .btn-remove-rubrica {
-            background: none;
-            border: none;
+            background: #fee2e2;
+            border: 1px solid #fca5a5;
             color: var(--danger);
             cursor: pointer;
             font-weight: 700;
-            font-size: 16px;
-            padding: 5px 10px;
+            font-size: 14px;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+        .btn-remove-rubrica:hover {
+            background: #fca5a5;
         }
 
         /* Estruturas das Seções de Destaque Final */
@@ -282,14 +289,14 @@
             background: #f8fafc;
             border: 2px solid #cbd5e1;
             border-radius: 8px;
-            padding: 16px;
+            padding: 18px;
             margin-bottom: 20px;
             box-sizing: border-box;
         }
 
         .result-section-title {
             font-weight: 800;
-            font-size: 13px;
+            font-size: 14px;
             color: var(--primary);
             text-transform: uppercase;
             margin-bottom: 12px;
@@ -304,7 +311,7 @@
             align-items: center;
             padding: 12px 0;
             border-bottom: 1px solid #e2e8f0;
-            font-size: 15px;
+            font-size: 16px;
             gap: 10px;
         }
 
@@ -313,7 +320,7 @@
         }
 
         .result-total {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 800;
             color: #166534;
             border-top: 2px solid #86efac;
@@ -321,19 +328,19 @@
             margin-top: 5px;
         }
 
-        /* Alertas e Caixas de Dica */
+        /* Caixas de Alerta (Amarelo Destacado Original) */
         .alert-box {
-            background-color: #fffbeb;
-            border-left: 5px solid var(--accent);
-            color: #92400e;
-            padding: 15px;
+            background-color: #fef3c7; 
+            border-left: 6px solid var(--accent);
+            color: #78350f;
+            padding: 16px;
             border-radius: 6px;
             margin-bottom: 25px;
-            font-size: 14px;
-            line-height: 1.5;
+            font-size: 15px;
+            line-height: 1.6;
         }
 
-        /* Área de Navegação (Botões) */
+        /* Área de Navegação (Botões Grandes) */
         .nav-buttons-container {
             display: flex;
             justify-content: space-between;
@@ -345,17 +352,16 @@
         }
 
         .btn-wizard {
-            padding: 14px 20px;
+            padding: 16px 24px;
             border: none;
             border-radius: 8px;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 700;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            transition: all 0.2s ease-in-out;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
             text-transform: uppercase;
             flex: 1;
@@ -404,13 +410,12 @@
         @media (max-width: 650px) {
             body { padding: 8px; }
             .wizard-container { padding: 18px; border-radius: 8px; }
-            h2 { font-size: 19px; }
+            h2 { font-size: 20px; }
             .form-grid-minimal { grid-template-columns: 1fr; gap: 10px; }
-            .rubrica-item-btn { width: 100%; justify-content: flex-start; padding: 12px; }
-            .result-item { flex-direction: column; align-items: flex-start; gap: 4px; border-bottom: 1px solid #e2e8f0; padding: 10px 0; }
+            .rubrica-item-btn { width: 100%; justify-content: flex-start; padding: 14px; }
+            .result-item { flex-direction: column; align-items: flex-start; gap: 4px; border-bottom: 1px solid #e2e8f0; padding: 12px 0; }
             .result-item span:last-child { align-self: flex-end; font-weight: 700; }
-            .result-total { font-size: 18px; flex-direction: column; align-items: flex-start; }
-            .btn-wizard { font-size: 13px; padding: 12px; }
+            .result-total { font-size: 19px; flex-direction: column; align-items: flex-start; }
         }
     </style>
 </head>
@@ -442,12 +447,11 @@
         <p>Acesse o extrato da sua ficha funcional para levantar o seu histórico de períodos adquiridos.</p>
 
         <div class="alert-box">
-            <strong>Dica:</strong><br>
+            <strong>Dica de Preenchimento:</strong><br>
             Selecione a quantidade de decênios concedidos de Licença Prêmio, clicando nessa setinha pequena ao lado.<br>
             Lembre-se que o decênio é o período de 10 anos de Efetivo Exercício.<br><br>
-            <strong>Exemplo:</strong><br>
-            Se você tem 35 anos de serviço<br>
-            Você tem 3 Decênios
+            <strong>Exemplo Prático:</strong><br>
+            Se você tem 35 anos de serviço, você possui 3 Decênios.
         </div>
 
         <div class="form-group">
@@ -465,7 +469,7 @@
         <div class="form-group">
             <label for="lp_gozadas">DIGITE A QUANTIDADE DE DIAS DE LICENÇAS-PRÊMIO QUE VOCÊ GOZOU:</label>
             <input type="number" id="lp_gozadas" value="60" min="0">
-            <small style="color: #64748b; display: block; margin-top: 8px;">A quantidade preenchida precisa ser em DIAS. Caso não tenha gozado nenhum dia, deixe 0.</small>
+            <small style="color: #1e293b; font-weight: 700; display: block; margin-top: 8px;">A quantidade preenchida precisa ser em DIAS. Caso não tenha gozado nenhum dia, digite 0.</small>
         </div>
     </div>
 
@@ -477,7 +481,7 @@
         <div class="form-group">
             <label for="ferias_nao_gozadas">DIGITE A QUANTIDADE DE DIAS DE FÉRIAS NÃO GOZADAS:</label>
             <input type="number" id="ferias_nao_gozadas" value="60" min="0">
-            <small style="color: #64748b; display: block; margin-top: 8px;">A quantidade preenchida deve ser informada em número de DIAS. Se não houver saldo, digite 0.</small>
+            <small style="color: #1e293b; font-weight: 700; display: block; margin-top: 8px;">A quantidade preenchida deve ser informada em número de DIAS. Se não houver saldo, digite 0.</small>
         </div>
 
         <div class="form-group">
@@ -538,8 +542,8 @@
                     <thead>
                         <tr>
                             <th style="width: 50%;">Descrição da Rubrica</th>
-                            <th style="width: 40%;">Valor (R$)</th>
-                            <th style="width: 10%; text-align: center;">Ação</th>
+                            <th style="width: 35%;">Valor (R$)</th>
+                            <th style="width: 15%; text-align: center;">Ação</th>
                         </tr>
                     </thead>
                     <tbody id="cc-mount-tbody">
@@ -802,7 +806,7 @@
             
             const trFixas = ['vencimento_base', 'salario_base', 'gratificacao_exercicio', 'gratificacao_incentivo'];
             if (!trFixas.includes(id)) {
-                tdAcao.innerHTML = `<button class="btn-remove-rubrica" onclick="removerRubricaDoContracheque('${id}')" title="Remover">🗑️</button>`;
+                tdAcao.innerHTML = `<button class="btn-remove-rubrica" onclick="removerRubricaDoContracheque('${id}')" title="Excluir Verba">🗑️ Excluir</button>`;
             } else {
                 tdAcao.innerHTML = `-`;
             }
@@ -842,6 +846,9 @@
 
         const progressPercent = (currentPage / totalPages) * 100;
         document.getElementById('progressBar').style.width = `${progressPercent}%`;
+
+        // Executa a rolagem automática e suave para o topo
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function calcularResultados() {
