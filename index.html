@@ -615,6 +615,68 @@
             - O valor da indenização aqui apresentado é fruto dos valores e informações digitadas pelo próprio servidor.<br>
             - O Tribunal de Justiça de Pernambuco não se responsabiliza pelas informações aqui apresentadas e nem se vincula ao pagamento do valor da indenização aqui simulada.
         </div>
+
+        <div style="margin-top: 25px; text-align: center;">
+            <button class="btn-wizard" style="background-color: var(--accent); color: white; max-width: 100%; width: 100%;" onclick="changePage(1)">
+                SIMULE AQUI SEU CONTRACHEQUE DA APOSENTADORIA 🖥️
+            </button>
+        </div>
+    </div>
+
+
+    <div class="wizard-page" id="page-6">
+        <h2>Simulação de Contracheque da Aposentadoria</h2>
+        <p>Insira seus dados pessoais para avaliar os critérios de proventos da sua aposentadoria.</p>
+
+        <div class="form-group form-grid-minimal" style="grid-template-columns: repeat(2, 1fr);">
+            <div>
+                <label for="apo_idade">IDADE DO SERVIDOR:</label>
+                <input type="number" id="apo_idade" value="52" min="0" oninput="avaliarRegraIdadeAuxSaude()">
+            </div>
+            <div>
+                <label for="apo_dependentes">QUANTIDADE DE DEPENDENTES:</label>
+                <input type="number" id="apo_dependentes" value="0" min="0">
+            </div>
+        </div>
+
+        <div class="contracheque-mount-area" style="border-color: var(--secondary);">
+            <div class="cc-mount-header" style="background-color: var(--secondary);">( + ) CRÉDITOS (VANTAGENS)</div>
+            <div class="table-responsive-wrapper">
+                <table class="cc-mount-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 60%;">Descrição da Rubrica</th>
+                            <th style="width: 40%;">Valor (R$)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="apo-creditos-tbody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="contracheque-mount-area" style="border-color: var(--danger); margin-top: 25px;">
+            <div class="cc-mount-header" style="background-color: var(--danger);">( - ) DÉBITOS (DESCONTOS)</div>
+            <div class="table-responsive-wrapper">
+                <table class="cc-mount-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50%;">Descrição da Rubrica</th>
+                            <th style="width: 35%;">Valor (R$)</th>
+                            <th style="width: 15%; text-align: center;">Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="apo-debitos-tbody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div style="margin-top: 15px; text-align: right;">
+            <button class="rubrica-item-btn" style="display: inline-flex;" onclick="adicionarDebitoLinha()">
+                <span class="plus-icon" style="color: var(--danger);">+</span> Adicionar Desconto/Débito
+            </button>
+        </div>
     </div>
 
 
@@ -668,7 +730,10 @@
 
     let rubricasContrachequeAtivas = {};
     let currentPage = 1;
-    const totalPages = 5;
+    const totalPages = 6; 
+
+    let valorAuxSaudeDigitado = 0;
+    let listaDebitosAposentadoria = [];
 
     window.onload = () => {
         const selectPadrao = document.getElementById('select-padrao');
@@ -823,6 +888,10 @@
             calcularResultados();
         }
 
+        if (currentPage === 5 && direction === 1) {
+            montarEstruturaAposentadoriaUmaVez();
+        }
+
         document.getElementById(`page-${currentPage}`).classList.remove('active');
         currentPage += direction;
         document.getElementById(`page-${currentPage}`).classList.add('active');
@@ -838,7 +907,7 @@
         } else {
             document.getElementById('btnNext').classList.remove('invisible-btn');
             if (currentPage === totalPages - 1) {
-                document.getElementById('btnNext').innerHTML = "CONCLUIR E CALCULAR &#128187;";
+                document.getElementById('btnNext').innerHTML = "AVANÇAR PARA APOSENTADORIA &#128187;";
             } else {
                 document.getElementById('btnNext').innerHTML = "Próximo &#8594;";
             }
@@ -847,7 +916,6 @@
         const progressPercent = (currentPage / totalPages) * 100;
         document.getElementById('progressBar').style.width = `${progressPercent}%`;
 
-        // Executa a rolagem automática e suave para o topo
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -885,6 +953,92 @@
         document.getElementById('res_valor_ferias').innerText = valorIndenizacaoFerias.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         document.getElementById('res_valor_abono').innerText = valorAbonoFerias.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         document.getElementById('res_total_pai').innerText = totalPAI.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    /* Novas Funções Ajustadas com Alvo Fixo para Evitar Perda de Foco */
+    function montarEstruturaAposentadoriaUmaVez() {
+        const tbodyCreditos = document.getElementById('apo-creditos-tbody');
+        tbodyCreditos.innerHTML = '';
+
+        // 1. Renderiza as rubricas fixas trazidas do passo 3
+        Object.keys(rubricasContrachequeAtivas).forEach(id => {
+            const item = rubricasContrachequeAtivas[id];
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td><strong>${item.label}</strong></td>
+                            <td>R$ ${item.valor.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>`;
+            tbodyCreditos.appendChild(tr);
+        });
+
+        // 2. Cria a linha estável do Auxílio Saúde
+        const trAux = document.createElement('tr');
+        trAux.innerHTML = `<td><strong>Auxílio Saúde</strong></td>
+                           <td><input type="number" id="apo_aux_saude" placeholder="0,00" step="0.01" oninput="atualizarValorAuxSaudeDireto(this.value)"></td>`;
+        tbodyCreditos.appendChild(trAux);
+
+        // 3. Cria a linha reservada da rubrica condicional de 50% (inicia oculta/zerada)
+        const trAdc = document.createElement('tr');
+        trAdc.id = "linha_aux_adicional_50";
+        trAdc.style.display = "none"; 
+        trAdc.innerHTML = `<td><strong>Aux Saúde (adc 50%)</strong></td>
+                           <td><input type="text" id="apo_aux_saude_50_display" value="R$ 0,00" readonly style="background:#e2e8f0; color:#334155;"></td>`;
+        tbodyCreditos.appendChild(trAdc);
+
+        avaliarRegraIdadeAuxSaude();
+        renderizarDebitosAposentadoria();
+    }
+
+    function atualizarValorAuxSaudeDireto(val) {
+        valorAuxSaudeDigitado = parseFloat(val) || 0;
+        avaliarRegraIdadeAuxSaude();
+    }
+
+    function avaliarRegraIdadeAuxSaude() {
+        const idade = parseInt(document.getElementById('apo_idade').value) || 0;
+        const linhaAdicional = document.getElementById('linha_aux_adicional_50');
+        const displayAdicional = document.getElementById('apo_aux_saude_50_display');
+
+        if (linhaAdicional && displayAdicional) {
+            if (idade > 50) {
+                const valorCalculadoAdicional = valorAuxSaudeDigitado * 0.5;
+                displayAdicional.value = valorCalculadoAdicional.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                linhaAdicional.style.display = ""; // Torna visível na tabela
+            } else {
+                linhaAdicional.style.display = "none"; // Oculta caso a idade baixe de 50
+            }
+        }
+    }
+
+    function adicionarDebitoLinha() {
+        listaDebitosAposentadoria.push({ label: '', valor: 0 });
+        renderizarDebitosAposentadoria();
+    }
+
+    function removerDebitoLinha(index) {
+        listaDebitosAposentadoria.splice(index, 1);
+        renderizarDebitosAposentadoria();
+    }
+
+    function atualizarDadoDebito(index, campo, valor) {
+        if (campo === 'label') {
+            listaDebitosAposentadoria[index].label = valor;
+        } else {
+            listaDebitosAposentadoria[index].valor = parseFloat(valor) || 0;
+        }
+    }
+
+    function renderizarDebitosAposentadoria() {
+        const tbodyDebitos = document.getElementById('apo-debitos-tbody');
+        tbodyDebitos.innerHTML = '';
+
+        listaDebitosAposentadoria.forEach((deb, index) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><input type="text" value="${deb.label}" placeholder="Ex: Imposto de Renda" oninput="atualizarDadoDebito(${index}, 'label', this.value)"></td>
+                <td><input type="number" value="${deb.valor === 0 ? '' : deb.valor}" placeholder="0,00" step="0.01" oninput="atualizarDadoDebito(${index}, 'valor', this.value)"></td>
+                <td style="text-align: center;"><button class="btn-remove-rubrica" onclick="removerDebitoLinha(${index})">🗑️ Remover</button></td>
+            `;
+            tbodyDebitos.appendChild(tr);
+        });
     }
 </script>
 
