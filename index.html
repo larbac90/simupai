@@ -241,7 +241,7 @@
         }
         .contracheque-mount-area.minimal-30 th {
             background: #f1f5f9;
-            border-bottom: 1px solid #cbd5e1;
+            border-bottom: 1px solid #e2e8f0;
         }
         .contracheque-mount-area.minimal-30 td {
             border-bottom: 1px solid #e2e8f0;
@@ -525,7 +525,7 @@
                 </table>            
             </div>        
         </div>        
-        <span class="cc-total-notice">* Atenção: Este total acumulado represents o Valor Base para a Indenização do PAI.</span>    
+        <span class="cc-total-notice">* Atenção: Este total acumulado representa o Valor Base para a Indenização do PAI.</span>    
     </div>
     
     <div class="wizard-page" id="page-5">        
@@ -547,7 +547,7 @@
             </div>        
         </div>        
         <div class="result-section-box" style="border-color: #3b82f6; background-color: #eff6ff;">            
-            <div class="result-section-title" style="color: #1d4ed8; border-bottom-color: rgba(29, 78, 216, 0.2);">Valor Base Calculado</div>            
+            <div class="result-section-title" style="color: #1d4ed8; border-bottom-color: rgba(29, 78, 216, 0.2);">Valor Base Calculated</div>            
             <div class="result-item" style="border-bottom: none;">                
                 <span>Montante do Contracheque Consolidado (Valor Base):</span>                
                 <span id="res_base_venc" style="font-weight: 700; color: #1e3a8a; font-size: 16px;">R$ 0,00</span>            
@@ -718,7 +718,7 @@
         atualizarInterfaceFiltros();    
     };
 
-    // 💰 FUNÇÃO DE FORMATÇÃO AUTOMÁTICA EM TEMPO REAL PARA IDOSOS (MÁSCARA DINÂMICA)
+    // 💰 FUNÇÃO DE FORMATAÇÃO AUTOMÁTICA EM TEMPO REAL PARA IDOSOS (MÁSCARA DINÂMICA)
     function aplicarMascaraMoeda(inputElement, callbackCalculo) {
         let valorBruto = inputElement.value.replace(/\D/g, ""); // Remove tudo que não for número
         if (valorBruto === "") {
@@ -907,7 +907,6 @@
         document.getElementById('res_total_pai').innerText = totalPAI.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });    
     }
 
-    // Código restador do motor original preservado na íntegra
     function montarEstruturaAposentadoriaUmaVez() {        
         const tbodyCreditos = document.getElementById('apo-creditos-tbody');        
         tbodyCreditos.innerHTML = '';
@@ -963,26 +962,30 @@
         let baseCalculoFunafin = Math.max(0, brutoContrachequeAposentado - tetoPrevidenciario);
         let valorCalculadoFunafin = baseCalculoFunafin * 0.14;
         
-        let bIR = brutoContrachequeAposentado - valorCalculadoFunafin;
-        bIR -= (dependentesIR * 189.59);
-        
-        if (idadeServer > 65) {
-            bIR -= 1903.98;
-        }
-        
-        bIR = Math.max(0, bIR);
-        
         let valorCalculadoIRRF = 0;
-        if (bIR > 4664.68) {
-            valorCalculadoIRRF = (bIR * 0.275) - 908.73;
-        } else if (bIR > 3751.05) {
-            valorCalculadoIRRF = (bIR * 0.225) - 675.49;
-        } else if (bIR > 2826.65) {
-            valorCalculadoIRRF = (bIR * 0.15) - 394.16;
-        } else if (bIR > 2428.80) {
-            valorCalculadoIRRF = (bIR * 0.075) - 182.16;
-        } else {
-            valorCalculadoIRRF = 0;
+
+        // Se NÃO possuir moléstia grave, calcula o IRRF normalmente. Se possuir (SIM), pula o cálculo e o valor fica 0.
+        if (possuiMolestia !== 'SIM') {
+            let bIR = brutoContrachequeAposentado - valorCalculadoFunafin;
+            bIR -= (dependentesIR * 189.59);
+            
+            if (idadeServer > 65) {
+                bIR -= 1903.98;
+            }
+            
+            bIR = Math.max(0, bIR);
+            
+            if (bIR > 4664.68) {
+                valorCalculadoIRRF = (bIR * 0.275) - 908.73;
+            } else if (bIR > 3751.05) {
+                valorCalculadoIRRF = (bIR * 0.225) - 675.49;
+            } else if (bIR > 2826.65) {
+                valorCalculadoIRRF = (bIR * 0.15) - 394.16;
+            } else if (bIR > 2428.80) {
+                valorCalculadoIRRF = (bIR * 0.075) - 182.16;
+            } else {
+                valorCalculadoIRRF = 0;
+            }
         }
         
         window.valoresAutomaticosDebitos = {            
