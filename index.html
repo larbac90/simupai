@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -6,18 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Guia de Simulação - PAI TJPE</title>
         
-    <!-- =========================================================         
-         [ESTILOS] BLOCO 1: Configurações de Cores e CSS Geral         
-         ========================================================= -->    
     <style>
         :root {
             --primary: #2c3e50;
             --secondary: #0d9488;
-            --accent: #d97706; /* Ajustado para um amarelo mais escuro/visível */
+            --accent: #d97706; 
             --bg: #f1f5f9;
             --text: #1e293b;
             --card-bg: #ffffff;
-            --border: #94a3b8; /* Linhas mais escuras para maior contraste */
+            --border: #94a3b8; 
             --danger: #dc2626;
             --success: #16a34a;
         }
@@ -34,7 +30,6 @@
             min-height: 100vh;
             box-sizing: border-box;
         }
-        /* Logo do Topo (Responsiva) */
         .header-main-logo {
             width: 100%;
             max-width: 320px;
@@ -42,7 +37,6 @@
             margin-bottom: 20px;
             display: block;
         }
-        /* Container Principal do Wizard */
         .wizard-container {
             width: 100%;
             max-width: 850px;
@@ -53,11 +47,10 @@
             position: relative;
             box-sizing: border-box;
         }
-        /* Barra de Progresso Superior */
         .progress-bar-container {
             width: 100%;
             background-color: #e2e8f0;
-            height: 10px; /* Mais espessa para fácil visualização */
+            height: 10px; 
             border-radius: 10px;
             margin-bottom: 25px;
             overflow: hidden;
@@ -68,7 +61,6 @@
             width: 20%;             
             transition: width 0.4s ease;
         }
-        /* Páginas internas */
         .wizard-page {
             display: none;
             animation: fadeIn 0.3s ease forwards;
@@ -89,10 +81,9 @@
         }
         p {
             line-height: 1.6;
-            color: #1e293b; /* Texto escuro de alto contraste */
+            color: #1e293b; 
             font-size: 16px;
         }
-        /* Inputs e Formulários */
         .form-group {
             margin-bottom: 20px;
             background: #f8fafc;
@@ -114,21 +105,19 @@
         }
         input[type="number"], select, input[type="text"] {
             width: 100%;
-            padding: 14px; /* Maior área de toque */
+            padding: 14px; 
             border: 2px solid var(--border);
             border-radius: 6px;
-            font-size: 16px; /* Evita zoom automático em telas mobile */
+            font-size: 16px; 
             box-sizing: border-box;
             font-weight: 600;
             color: var(--primary);
-            /* MODIFICAÇÃO SOLICITADA: Removido o appearance none para restaurar as setinhas nativas dos selects */
         }
         input:focus, select:focus {
             outline: none;
             border-color: var(--secondary);
             box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.25);
         }
-        /* Menu de Adição Dinâmica (+) */
         .rubricas-menu-box {
             background: #f1f5f9;
             border: 1px solid var(--border);
@@ -151,7 +140,7 @@
         .rubrica-item-btn {
             background: #fff;
             border: 2px solid var(--border);
-            padding: 12px 16px; /* Botões maiores para cliques fáceis */
+            padding: 12px 16px; 
             border-radius: 6px;
             font-size: 14px;
             font-weight: 700;
@@ -171,7 +160,6 @@
             font-weight: 900;
             font-size: 16px;
         }
-        /* Tabela Dinâmica do Contracheque Montado */
         .contracheque-mount-area {
             margin-top: 25px;
             border: 2px solid var(--primary);
@@ -230,16 +218,6 @@
             color: #1e3a8a;
             font-family: monospace;
         }
-        .cc-total-value-notice {
-            font-size: 13px;
-            color: #334155;
-            font-weight: 700;
-            font-style: italic;
-            margin-top: 8px;
-            display: block;
-            line-height: 1.4;
-        }
-        /* Botão de Excluir Robusto (Acessível) */
         .btn-remove-rubrica {
             background: #fee2e2;
             border: 1px solid #fca5a5;
@@ -253,7 +231,6 @@
         .btn-remove-rubrica:hover {
             background: #fca5a5;
         }
-        /* CLASSE EXCLUSIVA - 30% MINIMALISTA PARA O CONTRACHEQUE FINAL (TELA 6) */
         .contracheque-mount-area.minimal-30 {
             border: 1px solid #cbd5e1;
         }
@@ -269,7 +246,6 @@
         .contracheque-mount-area.minimal-30 td {
             border-bottom: 1px solid #e2e8f0;
         }
-        /* Estruturas das Seções de Destaque Final */
         .result-section-box {
             background: #f8fafc;
             border: 2px solid #cbd5e1;
@@ -308,7 +284,6 @@
             padding-top: 15px;
             margin-top: 5px;
         }
-        /* Caixas de Alerta (Amarelo Destacado Original) */
         .alert-box {
             background-color: #fef3c7; 
             border-left: 6px solid var(--accent);
@@ -319,7 +294,6 @@
             font-size: 15px;
             line-height: 1.6;
         }
-        /* Área de Navegação (Botões Grandes) */
         .nav-buttons-container {
             display: flex;
             justify-content: space-between;
@@ -348,7 +322,43 @@
         .btn-wizard-prev { background-color: #cbd5e1; color: #334155; }        
         .btn-wizard-next { background-color: var(--secondary); color: white; margin-left: auto; }        
         .invisible-btn { visibility: hidden; pointer-events: none; }
-        /* Estrutura Exclusiva do Rodapé */
+        
+        .resumo-valores-box {
+            margin-top: 25px;
+            background: #f8fafc;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 15px;
+        }
+        .grid-resumo-valores {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            text-align: center;
+        }
+        .card-resumo-item {
+            padding: 10px;
+            border-radius: 6px;
+            background: #fff;
+            border: 1px solid #cbd5e1;
+        }
+        .card-resumo-item label {
+            font-size: 12px;
+            color: #64748b;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            display: block;
+            text-align: center;
+        }
+        .card-resumo-item span {
+            font-size: 18px;
+            font-weight: 800;
+            font-family: monospace;
+        }
+        .color-vantagens { color: #16a34a; }
+        .color-descontos { color: #dc2626; }
+        .color-liquido { color: #1e3a8a; }
+
         .footer-main-container {
             margin-top: 30px;
             margin-bottom: 15px;
@@ -378,7 +388,6 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        /* Responsive Media Queries Mobile */
         @media (max-width: 650px) {            
             body { padding: 8px; }            
             .wizard-container { padding: 18px; border-radius: 8px; }            
@@ -387,7 +396,8 @@
             .rubrica-item-btn { width: 100%; justify-content: flex-start; padding: 14px; }            
             .result-item { flex-direction: column; align-items: flex-start; gap: 4px; border-bottom: 1px solid #e2e8f0; padding: 12px 0; }            
             .result-item span:last-child { align-self: flex-end; font-weight: 700; }            
-            .result-total { font-size: 19px; flex-direction: column; align-items: flex-start; }        
+            .result-total { font-size: 19px; flex-direction: column; align-items: flex-start; }  
+            .grid-resumo-valores { grid-template-columns: 1fr; gap: 10px; }      
         }    
     </style>
 </head>
@@ -395,15 +405,11 @@
 
 <img src="https://i.ibb.co/FkLCjrFV/Capturar-removebg-preview-1.png" class="header-main-logo" alt="Logo Principal TJPE">
 
-<!-- =========================================================     
-     [HTML] BLOCO 2: Estrutura Principal das Telas (Passos 1 ao 6)     
-     ========================================================= -->
 <div class="wizard-container">    
     <div class="progress-bar-container">        
         <div class="progress-bar" id="progressBar"></div>    
     </div>
     
-    <!-- 📄 PASSO 1: Tela de Boas-Vindas e Termos Base -->    
     <div class="wizard-page active" id="page-1">        
         <h2>Bem-vindo ao Simulador PAI</h2>        
         <p>Esta ferramenta funciona como um guia passo a passo estruturado para te auxiliar a simular os valores decorrentes da adesão ao <strong>Programa de Aposentadoria Incentivada (PAI)</strong>.</p>        
@@ -415,7 +421,6 @@
         </div>    
     </div>
     
-    <!-- 📄 PASSO 2: Entrada do Histórico Funcional de Licenças-Prêmio -->    
     <div class="wizard-page" id="page-2">        
         <h2>Passo 1: Saldo de Licenças-Prêmio</h2>        
         <p>Acesse o extrato da sua ficha funcional para levantar o seu histórico de períodos adquiridos.</p>        
@@ -444,7 +449,6 @@
         </div>    
     </div>
     
-    <!-- 📄 PASSO 3: Configuração do Histórico de Dias de Férias Acumuladas -->    
     <div class="wizard-page" id="page-3">        
         <h2>Passo 2: Saldo de Férias Acumuladas</h2>        
         <p>Informe o saldo acumulado total e os dias de abono regulamentares que serão computados.</p>        
@@ -471,7 +475,6 @@
         </div>    
     </div>
     
-    <!-- 📄 PASSO 4: Montagem Personalizada do Contracheque em Simulação -->    
     <div class="wizard-page" id="page-4">        
         <h2>Passo 3: Monte seu Contracheque</h2>        
         <p>Configure seus parâmetros bases e clique nos botões de <strong>(+)</strong> para incluir e liberar as verbas desejadas na montagem abaixo.</p>                        
@@ -524,7 +527,6 @@
         <span class="cc-total-notice">* Atenção: Este total acumulado representa o Valor Base para a Indenização do PAI.</span>    
     </div>
     
-    <!-- 📄 PASSO 5: Demonstrativo Final de Eixos e Verbas Indenizatórias do PAI -->    
     <div class="wizard-page" id="page-5">        
         <h2>Resultado Final Consolidado</h2>        
         <p>Confira abaixo o demonstrativo financeiro detalhado estruturado por eixos estratégicos de validação:</p>        
@@ -581,18 +583,24 @@
         </div>    
     </div>
     
-    <!-- 📄 PASSO 6: Simulador de Proventos e Descontos Fiscais da Aposentadoria (FUNAFIN/IRRF) -->    
     <div class="wizard-page" id="page-6">        
         <h2>Simulação de Contracheque da Aposentadoria</h2>        
         <p>Insira seus dados pessoais para avaliar os critérios de proventos da sua aposentadoria.</p>        
-        <div class="form-group form-grid-minimal" style="grid-template-columns: repeat(2, 1fr);">            
+        <div class="form-group form-grid-minimal" style="grid-template-columns: repeat(3, 1fr);">            
             <div>                
                 <label for="apo_idade">IDADE DO SERVIDOR:</label>                
-                <input type="number" id="apo_idade" value="52" min="0" oninput="avaliarRegraIdadeAuxSaude()">            
+                <input type="number" id="apo_idade" value="77" min="0" oninput="avaliarRegraIdadeAuxSaude(); recalcularDescontosAutomaticosAposentadoria();">            
             </div>            
             <div>                
                 <label for="apo_dependentes">QUANTIDADE DE DEPENDENTES:</label>                
-                <input type="number" id="apo_dependentes" value="0" min="0" oninput="recalcularDescontosAutomaticosAposentadoria()">            
+                <input type="number" id="apo_dependentes" value="1" min="0" oninput="recalcularDescontosAutomaticosAposentadoria()">            
+            </div>            
+            <div>                
+                <label for="apo_molestia">POSSUI MOLÉSTIA GRAVE?</label>                
+                <select id="apo_molestia" onchange="recalcularDescontosAutomaticosAposentadoria()">
+                    <option value="NAO" selected>Não</option>                    
+                    <option value="SIM">Sim</option>                
+                </select>            
             </div>        
         </div>        
         <div class="contracheque-mount-area minimal-30">            
@@ -629,6 +637,23 @@
                 <span class="plus-icon" style="color: var(--danger);">+</span> Adicionar Desconto/Débito            
             </button>        
         </div>    
+
+        <div class="resumo-valores-box">
+            <div class="grid-resumo-valores">
+                <div class="card-resumo-item">
+                    <label>Total de Vantagens (Bruto)</label>
+                    <span id="resumo-total-bruto" class="color-vantagens">R$ 0,00</span>
+                </div>
+                <div class="card-resumo-item">
+                    <label>Total de Descontos</label>
+                    <span id="resumo-total-descontos" class="color-descontos">R$ 0,00</span>
+                </div>
+                <div class="card-resumo-item">
+                    <label>Valor Líquido</label>
+                    <span id="resumo-total-liquido" class="color-liquido">R$ 0,00</span>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="nav-buttons-container">        
@@ -649,9 +674,6 @@
     <div class="footer-signature-text">SGP-DGF-2026</div>
 </div>
 
-<!-- =========================================================     
-     [MOTOR SCRIPT] BLOCO 3: Inicialização e Variáveis Globais     
-     ========================================================= -->
 <script>    
     const AJUSTES_SALARIAIS = [1.053];     
     const getFatorAcumulado = (lista) => lista.reduce((acc, curr) => acc * curr, 1);    
@@ -693,9 +715,19 @@
         atualizarInterfaceFiltros();    
     };
 
-    // =========================================================    
-    // [LOGICA] BLOCO 4: Regras de Interação de Rubricas do Passo 3    
-    // =========================================================    
+    // 💰 FUNÇÃO DE FORMATÇÃO AUTOMÁTICA EM TEMPO REAL PARA IDOSOS (MÁSCARA DINÂMICA)
+    function aplicarMascaraMoeda(inputElement, callbackCalculo) {
+        let valorBruto = inputElement.value.replace(/\D/g, ""); // Remove tudo que não for número
+        if (valorBruto === "") {
+            inputElement.value = "";
+            callbackCalculo(0);
+            return;
+        }
+        let valorNumerico = parseFloat(valorBruto) / 100;
+        inputElement.value = valorNumerico.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        callbackCalculo(valorNumerico);
+    }
+
     function atualizarInterfaceFiltros() {        
         const vinculo = document.getElementById('select-vinculo').value;        
         const wCargo = document.getElementById('wrapper-cargo');        
@@ -765,9 +797,9 @@
         renderizarMenuRubricasDisponiveis();        
         reconstruirTabelaContracheque();    
     }
-    function atualizarValorRubrica(id, valor) {        
+    function atualizarValorRubrica(id, valorRealNum) {        
         if (rubricasContrachequeAtivas[id]) {            
-            rubricasContrachequeAtivas[id].valor = parseFloat(valor) || 0;        
+            rubricasContrachequeAtivas[id].valor = valorRealNum;        
         }        
         atualizarSubtotalEmTempoReal();    
     }
@@ -793,7 +825,8 @@
             tr.appendChild(tdLabel);
             const tdValor = document.createElement('td');            
             if (item.manual) {                
-                tdValor.innerHTML = `<input type="number" value="${item.valor === 0 ? '' : item.valor}" placeholder="0,00" step="0.01" oninput="atualizarValorRubrica('${id}', this.value)">`;            
+                let valorTextoInicial = item.valor > 0 ? item.valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '';
+                tdValor.innerHTML = `<input type="text" value="${valorTextoInicial}" placeholder="0,00" oninput="aplicarMascaraMoeda(this, (v) => atualizarValorRubrica('${id}', v))">`;            
             } else {                
                 tdValor.innerHTML = `<input type="text" value="${item.valor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}" readonly style="background:#e2e8f0; color:#334155;">`;            
             }            
@@ -812,9 +845,6 @@
         atualizarSubtotalEmTempoReal();    
     }
 
-    // =========================================================    
-    // [MATRIZ] BLOCO 5: Navegação de Páginas e Fórmulas de Resgate do PAI    
-    // =========================================================    
     function changePage(direction) {        
         if (currentPage === 4 && direction === 1) {            
             calcularResultados();        
@@ -873,20 +903,18 @@
         document.getElementById('res_total_pai').innerText = totalPAI.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });    
     }
 
-    // =========================================================    
-    // [SISTEMA] BLOCO 6: Cálculos de Proventos e Descontos Fiscais (FUNAFIN/IRRF) do Passo 6    
-    // =========================================================    
     function montarEstruturaAposentadoriaUmaVez() {        
         const tbodyCreditos = document.getElementById('apo-creditos-tbody');        
         tbodyCreditos.innerHTML = '';
         Object.keys(rubricasContrachequeAtivas).forEach(id => {            
             const item = rubricasContrachequeAtivas[id];            
             const tr = document.createElement('tr');            
-            tr.innerHTML = `<td><strong>${item.label}</strong></td>                            <td>R$ ${item.valor.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>`;            
+            tr.innerHTML = `<td><strong>${item.label}</strong></td>                             <td>R$ ${item.valor.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>`;            
             tbodyCreditos.appendChild(tr);        
         });
         const trAux = document.createElement('tr');        
-        trAux.innerHTML = `<td><strong>Auxílio Saúde</strong></td>                           <td><input type="number" id="apo_aux_saude" placeholder="0,00" step="0.01" oninput="atualizarValorAuxSaudeDireto(this.value)"></td>`;        
+        let valorAuxTextoInicial = valorAuxSaudeDigitado > 0 ? valorAuxSaudeDigitado.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '';
+        trAux.innerHTML = `<td><strong>Auxílio Saúde</strong></td>                           <td><input type="text" id="apo_aux_saude" value="${valorAuxTextoInicial}" placeholder="0,00" oninput="aplicarMascaraMoeda(this, atualizarValorAuxSaudeDireto)"></td>`;        
         tbodyCreditos.appendChild(trAux);
         const trAdc = document.createElement('tr');        
         trAdc.id = "linha_aux_adicional_50";        
@@ -894,11 +922,10 @@
         trAdc.innerHTML = `<td><strong>Aux Saúde (adc 50%)</strong></td>                           <td><input type="text" id="apo_aux_saude_50_display" value="R$ 0,00" readonly style="background:#e2e8f0; color:#334155;"></td>`;        
         tbodyCreditos.appendChild(trAdc);
         avaliarRegraIdadeAuxSaude();                
-        // Ativação do cálculo fiscal automático assim que a tela abre        
         recalcularDescontosAutomaticosAposentadoria();    
     }
-    function atualizarValorAuxSaudeDireto(val) {        
-        valorAuxSaudeDigitado = parseFloat(val) || 0;        
+    function atualizarValorAuxSaudeDireto(valNum) {        
+        valorAuxSaudeDigitado = valNum;        
         avaliarRegraIdadeAuxSaude();    
     }
     function avaliarRegraIdadeAuxSaude() {        
@@ -914,24 +941,48 @@
                 inlineAdicional.style.display = "none";             
             }        
         }    
+        recalcularDescontosAutomaticosAposentadoria();
     }
-    /* PREVIDÊNCIA RECONFIGURADA: Calculando 14% de forma direta sobre a soma de todas as vantagens e rubricas do passo 3 */    
+    
     function recalcularDescontosAutomaticosAposentadoria() {        
         let brutoContrachequeAposentado = obterSomatorioAcumulado();        
         const dependentesIR = parseInt(document.getElementById('apo_dependentes').value) || 0;
+        const idadeServer = parseInt(document.getElementById('apo_idade').value) || 0;
+        const possuiMolestia = document.getElementById('apo_molestia').value;
         
-        // FUNAFIN calculando 14% direto da soma total        
-        let valorCalculadoFunafin = brutoContrachequeAposentado * 0.14;
+        let tetoPrevidenciario = 8475.56; 
+        if (possuiMolestia === 'SIM') {
+            tetoPrevidenciario = tetoPrevidenciario * 2; 
+        }
         
-        // FÓRMULA DE IRRF TOTALMENTE RECONSTITUÍDA E FIEL AO SEU CÓDIGO ORIGINAL ENVIADO:
-        let bIR = brutoContrachequeAposentado - valorCalculadoFunafin - Math.min(dependentesIR * 189.59, 607.20);        
-        let bIR2 = brutoContrachequeAposentado;                
-        let irC = bIR > 4664.68 ? (bIR * 0.275) - 908.73 : bIR > 3751.05 ? (bIR * 0.225) - 675.49 : bIR > 2826.65 ? (bIR * 0.15) - 394.16 : bIR > 2428.80 ? (bIR * 0.075) - 182.16 : 0;        
-        let valorCalculadoIRRF = bIR2 <= 5000 ? 0 : bIR2 > 7350 ? Math.max(irC, 0) : Math.max(irC - (978.62 - (0.133145 * bIR2)), 0);
+        let baseCalculoFunafin = Math.max(0, brutoContrachequeAposentado - tetoPrevidenciario);
+        let valorCalculadoFunafin = baseCalculoFunafin * 0.14;
+        
+        let bIR = brutoContrachequeAposentado - valorCalculadoFunafin;
+        bIR -= (dependentesIR * 189.59);
+        
+        if (idadeServer > 65) {
+            bIR -= 1903.98;
+        }
+        
+        bIR = Math.max(0, bIR);
+        
+        let valorCalculadoIRRF = 0;
+        if (bIR > 4664.68) {
+            valorCalculadoIRRF = (bIR * 0.275) - 908.73;
+        } else if (bIR > 3751.05) {
+            valorCalculadoIRRF = (bIR * 0.225) - 675.49;
+        } else if (bIR > 2826.65) {
+            valorCalculadoIRRF = (bIR * 0.15) - 394.16;
+        } else if (bIR > 2428.80) {
+            valorCalculadoIRRF = (bIR * 0.075) - 182.16;
+        } else {
+            valorCalculadoIRRF = 0;
+        }
         
         window.valoresAutomaticosDebitos = {            
             funafin: valorCalculadoFunafin,            
-            irrf: valorCalculadoIRRF        
+            irrf: Math.max(0, valorCalculadoIRRF)        
         };
         renderizarDebitosAposentadoria();    
     }
@@ -943,12 +994,14 @@
         listaDebitosAposentadoria.splice(index, 1);        
         renderizarDebitosAposentadoria();    
     }
-    function atualizarDadoDebito(index, campo, valor) {        
+    function atualizarDadoDebito(index, campo, valorDigitadoTexto) {        
         if (campo === 'label') {            
-            listaDebitosAposentadoria[index].label = valor;        
-        } else {            
-            listaDebitosAposentadoria[index].valor = parseFloat(valor) || 0;        
-        }    
+            listaDebitosAposentadoria[index].label = valorDigitadoTexto;        
+        }     
+    }
+    function atualizarDadoDebitoValorPuro(index, valorNum) {
+        listaDebitosAposentadoria[index].valor = valorNum;
+        atualizarResumoGeralContracheque();
     }
     function renderizarDebitosAposentadoria() {        
         const tbodyDebitos = document.getElementById('apo-debitos-tbody');        
@@ -972,12 +1025,35 @@
         tbodyDebitos.appendChild(trIRRF);
         listaDebitosAposentadoria.forEach((deb, index) => {            
             const tr = document.createElement('tr');            
+            let valorTextoInicial = deb.valor > 0 ? deb.valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '';
             tr.innerHTML = `                
                 <td><input type="text" value="${deb.label}" placeholder="Ex: Empréstimo Consignado" oninput="atualizarDadoDebito(${index}, 'label', this.value)"></td>                
-                <td><input type="number" value="${deb.valor === 0 ? '' : deb.valor}" placeholder="0,00" step="0.01" oninput="atualizarDadoDebito(${index}, 'valor', this.value)"></td>                
+                <td><input type="text" value="${valorTextoInicial}" placeholder="0,00" oninput="aplicarMascaraMoeda(this, (v) => atualizarDadoDebitoValorPuro(${index}, v))"></td>                
                 <td style="text-align: center;"><button class="btn-remove-rubrica" onclick="removerDebitoLinha(${index})">🗑️ Remover</button></td>            
             `;            
             tbodyDebitos.appendChild(tr);        
         });    
-    }</script>
-</body></html>
+        atualizarResumoGeralContracheque();
+    }
+
+    function atualizarResumoGeralContracheque() {
+        let totalCreditos = obterSomatorioAcumulado() + valorAuxSaudeDigitado;
+        const idade = parseInt(document.getElementById('apo_idade').value) || 0;
+        if (idade > 50) {
+            totalCreditos += (valorAuxSaudeDigitado * 0.5);
+        }
+
+        let totalDebitos = window.valoresAutomaticosDebitos.funafin + window.valoresAutomaticosDebitos.irrf;
+        listaDebitosAposentadoria.forEach(deb => {
+            totalDebitos += deb.valor;
+        });
+
+        let totalLiquido = totalCreditos - totalDebitos;
+
+        document.getElementById('resumo-total-bruto').innerText = totalCreditos.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        document.getElementById('resumo-total-descontos').innerText = totalDebitos.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        document.getElementById('resumo-total-liquido').innerText = totalLiquido.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+</script>
+</body>
+</html>
