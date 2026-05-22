@@ -488,9 +488,10 @@
             <div id="wrapper-cargo">                
                 <label for="select-cargo">CARGO</label>                
                 <select id="select-cargo" onchange="obterVencimentoTabelaOriginal()">                    
+                    <option value="AUXILIAR">Auxiliar</option>                    
                     <option value="TECNICO" selected>Técnico</option>                    
-                    <option value="ANALISTA">Analista</option>                    
-                    <option value="OFICIAL">Oficial de Justiça</option>                
+                    <option value="OFICIAL_PJIII">Oficial PJIII</option>                    
+                    <option value="ANALISTA_OFICIAL">Analista / Oficial de Justiça</option>                
                 </select>            
             </div>            
             <div id="wrapper-padrao">                
@@ -524,7 +525,7 @@
                 </table>            
             </div>        
         </div>        
-        <span class="cc-total-notice">* Atenção: Este total acumulado representa o Valor Base para a Indenização do PAI.</span>    
+        <span class="cc-total-notice">* Atenção: Este total acumulado represents o Valor Base para a Indenização do PAI.</span>    
     </div>
     
     <div class="wizard-page" id="page-5">        
@@ -679,28 +680,30 @@
     const getFatorAcumulado = (lista) => lista.reduce((acc, curr) => acc * curr, 1);    
     const fSal = getFatorAcumulado(AJUSTES_SALARIAIS);
 
+    // Tabela salarial atualizada com P00 e agrupamento analista_oficial
     const tabelaSalarial = [        
-        {p: "P01", tecnico: 6005.32, oficial: 7434.03, analista: 7825.32},        
-        {p: "P02", tecnico: 6164.45, oficial: 7631.04, analista: 8032.69},        
-        {p: "P03", tecnico: 6337.08, oficial: 7844.72, analista: 8257.59},        
-        {p: "P04", tecnico: 6524.04, oficial: 8076.13, analista: 8501.20},        
-        {p: "P05", tecnico: 6726.26, oficial: 8326.49, analista: 8764.72},        
-        {p: "P06", tecnico: 6944.85, oficial: 8597.11, analista: 9049.60},        
-        {p: "P07", tecnico: 7181.00, oficial: 8889.42, analista: 9357.29},        
-        {p: "P08", tecnico: 7435.92, oficial: 9204.99, analista: 9689.45},        
-        {p: "P09", tecnico: 7711.05, oficial: 9545.58, analista: 10047.97},        
-        {p: "P10", tecnico: 8007.94, oficial: 9913.07, analista: 10434.83},        
-        {p: "P11", tecnico: 8328.22, oficial: 10309.59, analista: 10852.20},        
-        {p: "P12", tecnico: 8827.94, oficial: 10928.18, analista: 11503.34},        
-        {p: "P13", tecnico: 9445.90, oficial: 11693.13, analista: 12308.58},        
-        {p: "P14", tecnico: 10201.54, oficial: 12628.60, analista: 13293.27},        
-        {p: "P15", tecnico: 11119.71, oficial: 13765.15, analista: 14489.66},        
-        {p: "P16", tecnico: 12231.66, oficial: 15141.69, analista: 15938.64},        
-        {p: "P17", tecnico: 13577.14, oficial: 16807.28, analista: 17691.87},        
-        {p: "P18", tecnico: 15206.39, oficial: 18824.14, analista: 19814.88},        
-        {p: "P19", tecnico: 17183.24, oficial: 21271.28, analista: 22390.82},        
-        {p: "P20", tecnico: 19588.89, oficial: 24249.28, analista: 25525.53},        
-        {p: "P21", tecnico: 22527.23, oficial: 27886.68, analista: 29354.38}    
+        {p: "P00", auxiliar: 5565.92, tecnico: 5858.86, oficial_pjIII: 7252.72, analista_oficial: 7634.45},
+        {p: "P01", auxiliar: 5705.07, tecnico: 6005.32, oficial_pjIII: 7434.03, analista_oficial: 7825.32},        
+        {p: "P02", auxiliar: 5856.24, tecnico: 6164.45, oficial_pjIII: 7631.04, analista_oficial: 8032.69},        
+        {p: "P03", auxiliar: 6020.23, tecnico: 6337.08, oficial_pjIII: 7844.72, analista_oficial: 8257.59},        
+        {p: "P04", auxiliar: 6197.83, tecnico: 6524.04, oficial_pjIII: 8076.13, analista_oficial: 8501.20},        
+        {p: "P05", auxiliar: 6389.93, tecnico: 6726.26, oficial_pjIII: 8326.49, analista_oficial: 8764.72},        
+        {p: "P06", auxiliar: 6597.61, tecnico: 6944.85, oficial_pjIII: 8597.11, analista_oficial: 9049.60},        
+        {p: "P07", auxiliar: 6821.91, tecnico: 7181.00, oficial_pjIII: 8889.42, analista_oficial: 9357.29},        
+        {p: "P08", auxiliar: 7064.12, tecnico: 7435.92, oficial_pjIII: 9204.99, analista_oficial: 9689.45},        
+        {p: "P09", auxiliar: 7325.47, tecnico: 7711.05, oficial_pjIII: 9545.58, analista_oficial: 10047.97},        
+        {p: "P10", auxiliar: 7607.51, tecnico: 8007.94, oficial_pjIII: 9913.07, analista_oficial: 10434.83},        
+        {p: "P11", auxiliar: 7911.82, tecnico: 8328.22, oficial_pjIII: 10309.59, analista_oficial: 10852.20},        
+        {p: "P12", auxiliar: 8386.53, tecnico: 8827.94, oficial_pjIII: 10928.18, analista_oficial: 11503.34},        
+        {p: "P13", auxiliar: 8973.59, tecnico: 9445.90, oficial_pjIII: 11693.13, analista_oficial: 12308.58},        
+        {p: "P14", auxiliar: 9691.46, tecnico: 10201.54, oficial_pjIII: 12628.60, analista_oficial: 13293.27},        
+        {p: "P15", auxiliar: 10563.73, tecnico: 11119.71, oficial_pjIII: 13765.15, analista_oficial: 14489.66},        
+        {p: "P16", auxiliar: 11620.08, tecnico: 12231.66, oficial_pjIII: 15141.69, analista_oficial: 15938.64},        
+        {p: "P17", auxiliar: 12898.30, tecnico: 13577.14, oficial_pjIII: 16807.28, analista_oficial: 17691.87},        
+        {p: "P18", auxiliar: 14446.06, tecnico: 15206.39, oficial_pjIII: 18824.14, analista_oficial: 19814.88},        
+        {p: "P19", auxiliar: 16324.07, tecnico: 17183.24, oficial_pjIII: 21271.28, analista_oficial: 22390.82},        
+        {p: "P20", auxiliar: 18609.46, tecnico: 19588.89, oficial_pjIII: 24249.28, analista_oficial: 25525.53},        
+        {p: "P21", auxiliar: 21400.86, tecnico: 22527.23, oficial_pjIII: 27886.68, analista_oficial: 29354.38}    
     ];
     
     let rubricasContrachequeAtivas = {};    
@@ -778,9 +781,10 @@
             if (!padrao) return;
             const dP = tabelaSalarial.find(x => x.p === padrao);                        
             let valorTab = 0;            
-            if (cargo === 'TECNICO') valorTab = dP.tecnico * fSal;            
-            else if (cargo === 'ANALISTA') valorTab = dP.analista * fSal;            
-            else if (cargo === 'OFICIAL') valorTab = dP.oficial * fSal;
+            if (cargo === 'AUXILIAR') valorTab = dP.auxiliar * fSal;
+            else if (cargo === 'TECNICO') valorTab = dP.tecnico * fSal;            
+            else if (cargo === 'OFICIAL_PJIII') valorTab = dP.oficial_pjIII * fSal;            
+            else if (cargo === 'ANALISTA_OFICIAL') valorTab = dP.analista_oficial * fSal;
             if (rubricasContrachequeAtivas['vencimento_base']) {                
                 rubricasContrachequeAtivas['vencimento_base'].valor = valorTab;            
             }        
@@ -903,6 +907,7 @@
         document.getElementById('res_total_pai').innerText = totalPAI.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });    
     }
 
+    // Código restador do motor original preservado na íntegra
     function montarEstruturaAposentadoriaUmaVez() {        
         const tbodyCreditos = document.getElementById('apo-creditos-tbody');        
         tbodyCreditos.innerHTML = '';
@@ -928,7 +933,7 @@
         valorAuxSaudeDigitado = valNum;        
         avaliarRegraIdadeAuxSaude();    
     }
-    function avaliarRegraIdadeAuxSaude() {        
+    function evaluarRegraIdadeAuxSaude() {        
         const idade = parseInt(document.getElementById('apo_idade').value) || 0;        
         const inlineAdicional = document.getElementById('linha_aux_adicional_50');        
         const displayAdicional = document.getElementById('apo_aux_saude_50_display');
