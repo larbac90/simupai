@@ -322,7 +322,7 @@
         .btn-wizard-prev { background-color: #cbd5e1; color: #334155; }        
         .btn-wizard-next { background-color: var(--secondary); color: white; margin-left: auto; }        
         .invisible-btn { visibility: hidden; pointer-events: none; }
-        
+         
         .resumo-valores-box {
             margin-top: 25px;
             background: #f8fafc;
@@ -911,10 +911,12 @@
         const tbodyCreditos = document.getElementById('apo-creditos-tbody');        
         tbodyCreditos.innerHTML = '';
         Object.keys(rubricasContrachequeAtivas).forEach(id => {            
-            const item = rubricasContrachequeAtivas[id];            
-            const tr = document.createElement('tr');            
-            tr.innerHTML = `<td><strong>${item.label}</strong></td>                             <td>R$ ${item.valor.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>`;            
-            tbodyCreditos.appendChild(tr);        
+            if (id !== 'adicional_qualificacao') {
+                const item = rubricasContrachequeAtivas[id];            
+                const tr = document.createElement('tr');            
+                tr.innerHTML = `<td><strong>${item.label}</strong></td>                             <td>R$ ${item.valor.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>`;            
+                tbodyCreditos.appendChild(tr);            
+            }
         });
         const trAux = document.createElement('tr');        
         let valorAuxTextoInicial = valorAuxSaudeDigitado > 0 ? valorAuxSaudeDigitado.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '';
@@ -949,7 +951,12 @@
     }
     
     function recalcularDescontosAutomaticosAposentadoria() {        
-        let brutoContrachequeAposentado = obterSomatorioAcumulado();        
+        let brutoContrachequeAposentado = 0;        
+        Object.keys(rubricasContrachequeAtivas).forEach(id => {
+            if (id !== 'adicional_qualificacao') {
+                brutoContrachequeAposentado += rubricasContrachequeAtivas[id].valor;
+            }
+        });
         const dependentesIR = parseInt(document.getElementById('apo_dependentes').value) || 0;
         const idadeServer = parseInt(document.getElementById('apo_idade').value) || 0;
         const possuiMolestia = document.getElementById('apo_molestia').value;
@@ -1045,7 +1052,14 @@
     }
 
     function atualizarResumoGeralContracheque() {
-        let totalCreditos = obterSomatorioAcumulado() + valorAuxSaudeDigitado;
+        let totalCreditos = 0;
+        Object.keys(rubricasContrachequeAtivas).forEach(id => {
+            if (id !== 'adicional_qualificacao') {
+                totalCreditos += rubricasContrachequeAtivas[id].valor;
+            }
+        });
+        totalCreditos += valorAuxSaudeDigitado;
+        
         const idade = parseInt(document.getElementById('apo_idade').value) || 0;
         if (idade > 50) {
             totalCreditos += (valorAuxSaudeDigitado * 0.5);
